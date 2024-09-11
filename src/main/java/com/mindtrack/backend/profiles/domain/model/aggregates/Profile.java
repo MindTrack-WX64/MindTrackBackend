@@ -4,6 +4,7 @@ import com.mindtrack.backend.iam.domain.model.aggregates.User;
 import com.mindtrack.backend.profiles.domain.model.commands.CreateProfileCommand;
 import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
@@ -11,8 +12,10 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
+@Entity
 public class Profile extends AuditableAbstractAggregateRoot<Profile> {
 
+    @Getter
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User userId;
@@ -33,7 +36,6 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
     private String phone;
 
     @Getter
-    @NotBlank
     @Column(nullable = false)
     private LocalDate birthDate;
 

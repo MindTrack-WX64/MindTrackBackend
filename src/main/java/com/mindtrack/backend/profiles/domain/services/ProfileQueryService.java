@@ -8,7 +8,7 @@ import com.mindtrack.backend.profiles.domain.model.queries.GetProfileByEmailQuer
 import java.util.List;
 import java.util.Optional;
 
-public interface ProfileQueryServices {
+public interface ProfileQueryService {
     Optional<Profile> handle(GetProfileByIdQuery query);
     Optional<Profile> handle(GetProfileByEmailQuery query);
     List<Profile> handle(GetAllProfilesQuery query);

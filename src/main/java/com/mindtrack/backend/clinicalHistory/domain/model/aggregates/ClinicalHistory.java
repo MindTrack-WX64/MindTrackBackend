@@ -28,7 +28,6 @@ public class ClinicalHistory extends AuditableAbstractAggregateRoot<ClinicalHist
     @Column(nullable = false)
     String consultationReason;
 
-    @NotBlank
     @Column(nullable = false)
     LocalDate consultationDate;
 

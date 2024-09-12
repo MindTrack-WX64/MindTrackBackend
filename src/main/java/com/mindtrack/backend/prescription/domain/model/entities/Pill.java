@@ -2,8 +2,10 @@ package com.mindtrack.backend.prescription.domain.model.entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
 
 @Embeddable
+@Getter
 public class Pill {
 
     @Column(nullable = false)

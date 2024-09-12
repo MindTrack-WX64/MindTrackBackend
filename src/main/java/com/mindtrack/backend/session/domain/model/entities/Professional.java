@@ -8,7 +8,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -23,18 +25,20 @@ public class Professional extends AuditableAbstractAggregateRoot<Professional> {
             name="professional_patients",
             joinColumns = @JoinColumn(name="professional_id"),
             inverseJoinColumns = @JoinColumn(name="patient_id"))
-    private List<Patient> patients;
+    private Set<Patient> patients;
 
     public Professional() {
     }
 
     public Professional(CreateProfessionalCommand command) {
         this.professionalType = command.professionalType();
-        this.patients = new ArrayList<Patient>();
+        this.patients = new HashSet<>();
     }
 
     public void addPatient(Patient patient) {
-        this.patients.add(patient);
+        if (patient != null) {
+            this.patients.add(patient);
+        }
     }
 
 }

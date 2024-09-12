@@ -25,7 +25,7 @@ public class PatientCommandServiceImpl implements PatientCommandService {
         Profile profile = this.profileRepository.findById(command.profileId())
                 .orElseThrow(() -> new IllegalArgumentException("Profile not found"));
 
-        if (!profile.getUserRole().equals("PATIENT")) {
+        if (!profile.getUserId().getSerializedRoles().contains("PATIENT")) {
             throw new IllegalArgumentException("Profile is not a patient");
         }
 

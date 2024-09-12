@@ -31,6 +31,10 @@ public class ProfessionalCommandServiceImpl implements ProfessionalCommandServic
         Profile profile = this.profileRepository.findById(command.profileId())
                 .orElseThrow(() -> new IllegalArgumentException("Profile not found"));
 
+        if (!profile.getUserId().getSerializedRoles().contains("PROFESSIONAL")) {
+            throw new IllegalArgumentException("Profile is not a professional");
+        }
+
         Professional professional = new Professional(command, profile);
 
         var savedProfessional = this.professionalRepository.save(professional);

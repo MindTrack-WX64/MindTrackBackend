@@ -49,7 +49,4 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.birthDate = command.birthDate();
     }
 
-    public String getUserRole() {
-        return userId.getRoles().toString();
-    }
 }

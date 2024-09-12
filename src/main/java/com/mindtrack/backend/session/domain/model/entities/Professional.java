@@ -1,6 +1,7 @@
 package com.mindtrack.backend.session.domain.model.entities;
 
 import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
+import com.mindtrack.backend.profiles.domain.model.aggregates.Profile;
 import com.mindtrack.backend.session.domain.model.commands.CreateProfessionalCommand;
 import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
@@ -16,6 +17,11 @@ import java.util.Set;
 @Getter
 public class Professional extends AuditableAbstractAggregateRoot<Professional> {
 
+    @Getter
+    @OneToOne
+    @JoinColumn(name = "profile_id", nullable = false)
+    private Profile profile;
+
     @NotBlank
     @Column(nullable = false)
     private String professionalType;
@@ -30,7 +36,8 @@ public class Professional extends AuditableAbstractAggregateRoot<Professional> {
     public Professional() {
     }
 
-    public Professional(CreateProfessionalCommand command) {
+    public Professional(CreateProfessionalCommand command, Profile profile) {
+        this.profile = profile;
         this.professionalType = command.professionalType();
         this.patients = new HashSet<>();
     }

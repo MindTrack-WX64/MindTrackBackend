@@ -1,4 +1,4 @@
 package com.mindtrack.backend.session.domain.model.queries;
 
-public record GetProfessionalByIdQuery() {
+public record GetProfessionalByIdQuery(Long professionalId) {
 }

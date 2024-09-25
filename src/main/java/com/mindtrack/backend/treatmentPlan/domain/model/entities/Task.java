@@ -44,4 +44,8 @@ public class Task {
         this.endDate = LocalDate.now();
         this.completed = true;
     }
+
+    public String getTaskInfo() {
+        return ("Title: " + title + "Description: " + description + "Start Date: " + startDate + "End Date: " + endDate + "Completed: " + completed);
+    }
 }

@@ -35,4 +35,8 @@ public class BiologicalFunction {
         this.hydration = hydration;
         this.energy = energy;
     }
+
+    public String getBiologicalFunctionInfo() {
+        return ("Date: " + date + "Hunger: " + hunger + "Sleep: " + sleep + "Hydration: " + hydration + "Energy: " + energy);
+    }
 }

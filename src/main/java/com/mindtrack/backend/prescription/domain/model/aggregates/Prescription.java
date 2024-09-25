@@ -20,10 +20,6 @@ public class Prescription extends AuditableAbstractAggregateRoot<Prescription> {
     @CollectionTable(name = "prescription_pills", joinColumns = @JoinColumn(name = "prescription_id"))
     private List<Pill> pills;
 
-    @NotBlank
-    @Column(nullable = false)
-    private String frequency;
-
     @Column(nullable = false)
     LocalDate startDate;
 
@@ -34,13 +30,12 @@ public class Prescription extends AuditableAbstractAggregateRoot<Prescription> {
 
     public Prescription(CreatePrescriptionCommand command) {
         this.pills = new ArrayList<Pill>();
-        this.frequency = command.frequency();
         this.startDate = command.startDate();
         this.endDate = command.endDate();
     }
 
     public void addPill(AddPillsToDescriptionCommand command) {
-        Pill pill = new Pill(command.name(), command.description(), command.quantity());
+        Pill pill = new Pill(command.name(), command.description(), command.quantity(), command.frequency());
         this.pills.add(pill);
     }
 }

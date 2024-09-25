@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 public record CreatePrescriptionResource(
-        String frequency,
         LocalDate startDate,
         LocalDate endDate
 ) {

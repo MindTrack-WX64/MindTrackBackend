@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface ClinicalHistoryRepository extends JpaRepository<ClinicalHistory, Long> {
     Optional<ClinicalHistory> findById(Long id);
-    Optional<ClinicalHistory> findByPatientProfileEmail(String email);
+    Optional<ClinicalHistory> findByPatientEmail(String email);
     List<ClinicalHistory> findAll();
 }

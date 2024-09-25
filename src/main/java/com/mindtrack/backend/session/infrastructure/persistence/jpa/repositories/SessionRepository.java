@@ -12,6 +12,6 @@ import java.util.Optional;
 public interface SessionRepository extends JpaRepository<Session, Long> {
     Optional<Session> findById(Long id);
     List<Session> findAll();
-    List<Session> findAllByProfessionalProfileEmail(String email);
+    List<Session> findAllByProfessionalEmail(String email);
     List<Session> findAllBySessionDate(LocalDate date);
 }

@@ -36,4 +36,11 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
         this.phone = phone;
         this.birthDate = birthDate;
     }
+
+    protected Profile() {
+        this.fullName = null;
+        this.email = null;
+        this.phone = null;
+        this.birthDate = null;
+    }
 }

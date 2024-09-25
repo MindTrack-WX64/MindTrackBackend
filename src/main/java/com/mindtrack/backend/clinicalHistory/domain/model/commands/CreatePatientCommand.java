@@ -1,7 +1,11 @@
 package com.mindtrack.backend.clinicalHistory.domain.model.commands;
 
+import java.time.LocalDate;
+
 public record CreatePatientCommand(
-        boolean clinicalHistoryStatus,
-        Long profileId
+        String fullName,
+        String email,
+        String phone,
+        LocalDate birthDate
 ) {
 }

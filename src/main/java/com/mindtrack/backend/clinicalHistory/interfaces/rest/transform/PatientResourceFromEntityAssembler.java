@@ -8,7 +8,12 @@ import com.mindtrack.backend.profiles.interfaces.rest.transform.ProfileResourceF
 
 public class PatientResourceFromEntityAssembler {
     public static PatientResource toResourceFromEntity(Patient entity) {
-        ProfileResource profileResource = ProfileResourceFromEntityAssembler.toResourceFromEntity(entity.getProfile());
-        return new PatientResource(entity.getId(), profileResource, entity.isClinicalHistoryStatus());
+        return new PatientResource(
+                entity.getId(),
+                entity.getFullName(),
+                entity.getEmail(),
+                entity.getPhone(),
+                entity.getBirthDate(),
+                entity.isClinicalHistoryStatus());
     }
 }

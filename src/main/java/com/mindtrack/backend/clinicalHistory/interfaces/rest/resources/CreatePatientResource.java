@@ -1,7 +1,11 @@
 package com.mindtrack.backend.clinicalHistory.interfaces.rest.resources;
 
+import java.time.LocalDate;
+
 public record CreatePatientResource(
-        boolean clinicalHistoryStatus,
-        Long profileId
+        String fullName,
+        String email,
+        String phone,
+        LocalDate birthDate
 ) {
 }

@@ -6,8 +6,10 @@ import com.mindtrack.backend.clinicalHistory.interfaces.rest.resources.CreatePat
 public class CreatePatientCommandFromResourceAssembler {
     public static CreatePatientCommand toCommandFromResource(CreatePatientResource resource) {
         return new CreatePatientCommand(
-                resource.clinicalHistoryStatus(),
-                resource.profileId()
+                resource.fullName(),
+                resource.email(),
+                resource.phone(),
+                resource.birthDate()
         );
     }
 }

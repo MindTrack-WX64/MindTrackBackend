@@ -4,6 +4,8 @@ import com.mindtrack.backend.clinicalHistory.domain.model.commands.CreatePatient
 import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
 import com.mindtrack.backend.clinicalHistory.domain.services.PatientCommandService;
 import com.mindtrack.backend.clinicalHistory.infrastructure.persistence.jpa.repositories.PatientRepository;
+import com.mindtrack.backend.iam.domain.model.aggregates.User;
+import com.mindtrack.backend.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import com.mindtrack.backend.profiles.domain.model.aggregates.Profile;
 import com.mindtrack.backend.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
 import org.springframework.stereotype.Service;
@@ -13,23 +15,23 @@ import java.util.Optional;
 @Service
 public class PatientCommandServiceImpl implements PatientCommandService {
     private final PatientRepository patientRepository;
-    private final ProfileRepository profileRepository;
+    private final UserRepository userRepository;
 
-    public PatientCommandServiceImpl(PatientRepository patientRepository, ProfileRepository profileRepository) {
+    public PatientCommandServiceImpl(PatientRepository patientRepository, UserRepository userRepository) {
         this.patientRepository = patientRepository;
-        this.profileRepository = profileRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public Optional<Patient> handle(CreatePatientCommand command) {
-        Profile profile = this.profileRepository.findById(command.profileId())
-                .orElseThrow(() -> new IllegalArgumentException("Profile not found"));
+        User user = this.userRepository.findById(command.userId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!profile.getUserId().getSerializedRoles().contains("PATIENT")) {
+        if (!user.getSerializedRoles().contains("PATIENT")) {
             throw new IllegalArgumentException("Profile is not a patient");
         }
 
-        Patient patient = new Patient(command, profile);
+        Patient patient = new Patient(command, user);
 
         var patientUpdated = this.patientRepository.save(patient);
 

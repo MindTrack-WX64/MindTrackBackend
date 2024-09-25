@@ -12,6 +12,7 @@ public class AddPillsToDescriptionCommandFromResourceAssembler {
                 resource.name(),
                 resource.description(),
                 resource.quantity(),
+                resource.frequency(),
                 resource.prescriptionId()
         );
     }

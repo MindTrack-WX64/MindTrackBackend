@@ -9,10 +9,12 @@ import java.time.LocalDate;
 @Embeddable
 @Getter
 public class PatientState {
-    private LocalDate date;
-    private MoodStates moodState;
+    private final LocalDate date;
+    private final MoodStates moodState;
 
     public PatientState() {
+        this.date = null;
+        this.moodState = null;
     }
 
     public PatientState(LocalDate date, MoodStates moodState) {

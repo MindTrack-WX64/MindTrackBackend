@@ -2,6 +2,8 @@ package com.mindtrack.backend.session.application.internal.commandservices;
 
 import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
 import com.mindtrack.backend.clinicalHistory.infrastructure.persistence.jpa.repositories.PatientRepository;
+import com.mindtrack.backend.iam.domain.model.aggregates.User;
+import com.mindtrack.backend.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import com.mindtrack.backend.profiles.domain.model.aggregates.Profile;
 import com.mindtrack.backend.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
 import com.mindtrack.backend.session.domain.model.commands.AddPatientCommand;
@@ -16,26 +18,26 @@ import java.util.Optional;
 @Service
 public class ProfessionalCommandServiceImpl implements ProfessionalCommandService {
     private final ProfessionalRepository professionalRepository;
-    private final ProfileRepository profileRepository;
+    private final UserRepository userRepository;
     private final PatientRepository patientRepository;
 
     public ProfessionalCommandServiceImpl(ProfessionalRepository professionalRepository,
-                                          ProfileRepository profileRepository, PatientRepository patientRepository) {
+                                          UserRepository userRepository, PatientRepository patientRepository) {
         this.professionalRepository = professionalRepository;
-        this.profileRepository = profileRepository;
+        this.userRepository = userRepository;
         this.patientRepository = patientRepository;
     }
 
     @Override
     public Optional<Professional> handle(CreateProfessionalCommand command) {
-        Profile profile = this.profileRepository.findById(command.profileId())
-                .orElseThrow(() -> new IllegalArgumentException("Profile not found"));
+        User user = this.userRepository.findById(command.userId())
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        if (!profile.getUserId().getSerializedRoles().contains("PROFESSIONAL")) {
+        if (!user.getSerializedRoles().contains("PROFESSIONAL")) {
             throw new IllegalArgumentException("Profile is not a professional");
         }
 
-        Professional professional = new Professional(command, profile);
+        Professional professional = new Professional(command, user);
 
         var savedProfessional = this.professionalRepository.save(professional);
         return Optional.of(savedProfessional);

@@ -4,8 +4,6 @@ import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
 import com.mindtrack.backend.clinicalHistory.infrastructure.persistence.jpa.repositories.PatientRepository;
 import com.mindtrack.backend.iam.domain.model.aggregates.User;
 import com.mindtrack.backend.iam.infrastructure.persistence.jpa.repositories.UserRepository;
-import com.mindtrack.backend.profiles.domain.model.aggregates.Profile;
-import com.mindtrack.backend.profiles.infrastructure.persistence.jpa.repositories.ProfileRepository;
 import com.mindtrack.backend.session.domain.model.commands.AddPatientCommand;
 import com.mindtrack.backend.session.domain.model.commands.CreateProfessionalCommand;
 import com.mindtrack.backend.session.domain.model.entities.Professional;

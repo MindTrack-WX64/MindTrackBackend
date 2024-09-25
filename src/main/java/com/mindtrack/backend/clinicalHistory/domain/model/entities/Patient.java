@@ -31,6 +31,6 @@ public class Patient extends Profile {
             throw new IllegalArgumentException("User cannot be null");
         }
         this.user = user;
-        this.clinicalHistoryStatus = command.clinicalHistoryStatus();
+        this.clinicalHistoryStatus = false;
     }
 }

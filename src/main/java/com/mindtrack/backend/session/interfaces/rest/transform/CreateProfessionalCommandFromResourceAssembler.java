@@ -6,8 +6,12 @@ import com.mindtrack.backend.session.interfaces.rest.resources.CreateProfessiona
 public class CreateProfessionalCommandFromResourceAssembler {
     public static CreateProfessionalCommand toCommandFromResource(CreateProfessionalResource resource) {
         return new CreateProfessionalCommand(
+                resource.userId(),
                 resource.professionalType(),
-                resource.profileId()
+                resource.fullName(),
+                resource.email(),
+                resource.phone(),
+                resource.birthDate()
         );
     }
 }

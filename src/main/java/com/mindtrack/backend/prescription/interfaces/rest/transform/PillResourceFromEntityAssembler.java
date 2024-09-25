@@ -8,7 +8,8 @@ public class PillResourceFromEntityAssembler {
         return new PillResource(
                 entity.getName(),
                 entity.getDescription(),
-                entity.getQuantity()
+                entity.getQuantity(),
+                entity.getFrequency()
         );
     }
 }

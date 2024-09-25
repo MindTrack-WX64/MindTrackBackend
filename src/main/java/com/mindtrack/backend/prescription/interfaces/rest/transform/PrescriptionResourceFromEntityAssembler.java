@@ -13,7 +13,6 @@ public class PrescriptionResourceFromEntityAssembler {
                 .toList();
         return new PrescriptionResource(
                 resource.getId(),
-                resource.getFrequency(),
                 resource.getStartDate(),
                 resource.getEndDate(),
                 pillResources

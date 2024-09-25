@@ -6,7 +6,6 @@ import com.mindtrack.backend.prescription.interfaces.rest.resources.CreatePrescr
 public class CreatePrescriptionCommandFromResourceAssembler {
     public static CreatePrescriptionCommand toCommandFromResource(CreatePrescriptionResource resource) {
         return new CreatePrescriptionCommand(
-                resource.frequency(),
                 resource.startDate(),
                 resource.endDate()
         );

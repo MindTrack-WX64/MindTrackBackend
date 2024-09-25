@@ -17,7 +17,7 @@ public class Patient extends Profile {
     private final User user;
 
     @Getter
-    private final boolean clinicalHistoryStatus;
+    private boolean clinicalHistoryStatus;
 
     public Patient() {
         super();
@@ -32,5 +32,9 @@ public class Patient extends Profile {
         }
         this.user = user;
         this.clinicalHistoryStatus = false;
+    }
+
+    public void updateClinicalHistoryStatus() {
+        this.clinicalHistoryStatus = true;
     }
 }

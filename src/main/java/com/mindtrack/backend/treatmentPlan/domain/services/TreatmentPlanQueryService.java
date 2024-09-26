@@ -2,6 +2,7 @@ package com.mindtrack.backend.treatmentPlan.domain.services;
 
 import com.mindtrack.backend.treatmentPlan.domain.model.aggregates.TreatmentPlan;
 import com.mindtrack.backend.treatmentPlan.domain.model.queries.*;
+import com.mindtrack.backend.treatmentPlan.domain.model.valuobjects.TreatmentPlanStatistics;
 
 import java.util.List;
 
@@ -13,6 +14,6 @@ public interface TreatmentPlanQueryService {
     List<TreatmentPlan> handle(GetAllTreatmentPlanPatientStateQuery query);
     List<TreatmentPlan> handle(GetAllTreatmentPlanSessionQuery query);
     List<TreatmentPlan> handle(GetAllTreatmentPlanTaskQuery query);
-    List<TreatmentPlan> handle(GetTreatmentPlanStatisticsDataQuery query);
+    List<TreatmentPlanStatistics> handle(GetTreatmentPlanStatisticsDataQuery query);
 
 }

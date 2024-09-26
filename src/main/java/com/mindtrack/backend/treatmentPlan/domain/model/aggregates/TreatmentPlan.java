@@ -5,12 +5,11 @@ import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
 import com.mindtrack.backend.session.domain.model.aggregates.Session;
 import com.mindtrack.backend.session.domain.model.entities.Professional;
-import com.mindtrack.backend.treatmentPlan.domain.model.commands.AddPatientStateCommand;
+import com.mindtrack.backend.treatmentPlan.domain.model.commands.*;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.BiologicalFunction;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.Diagnostic;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.PatientState;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.Task;
-import com.mindtrack.backend.treatmentPlan.domain.model.commands.CreateTreatmentPlanCommand;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -99,6 +98,88 @@ public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan>
         // Si no existe, agregar el nuevo estado del paciente
         PatientState newState = new PatientState(command.date(), command.moodState());
         patientStates.add(newState);
+    }
+
+    public void addBiologicalFunction(AddBiologicalFunctionCommand command) {
+        if (command.hunger() == 0 || command.sleep() == 0 || command.hydration() == 0 || command.energy() == 0) {
+            throw new IllegalArgumentException("The hunger, sleep, hydration and energy values cannot be 0");
+        }
+
+        // Verificar si ya existe una función biológica para la fecha proporcionada
+        boolean exists = biologicalFunctions.stream()
+                .anyMatch(biologicalFunction -> biologicalFunction.getDate().equals(command.date()));
+
+        if (exists) {
+            throw new IllegalArgumentException("A biological function already exists for this date");
+        }
+
+        // Si no existe, agregar la nueva función biológica
+        BiologicalFunction biologicalFunction = new BiologicalFunction(command.date(), command.hunger(), command.sleep(), command.hydration(), command.energy());
+        biologicalFunctions.add(biologicalFunction);
+    }
+
+    public void addDiagnostic(AddDiagnosticCommand command) {
+        if (command.date() == null || command.description() == null || command.name() == null) {
+            throw new IllegalArgumentException("The date, description and name cannot be null");
+        }
+        Diagnostic diagnostic = new Diagnostic(command.name(), command.description(), command.date());
+        diagnostics.add(diagnostic);
+    }
+
+    public void addTask(AddTaskCommand command) {
+        if (command.title() == null || command.description() == null) {
+            throw new IllegalArgumentException("The title and description cannot be null");
+        }
+        Task task = new Task(command.title(), command.description());
+        tasks.add(task);
+    }
+
+    public void startTask(StartTaskCommand command) {
+        if (command.taskId() == null) {
+            throw new IllegalArgumentException("The task id cannot be null");
+        }
+
+        Task task = tasks.stream()
+                .filter(t -> t.getId().equals(command.taskId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("The task does not exist"));
+
+        task.startTask();
+    }
+
+    public void finishTask(FinishTaskCommand command) {
+        if (command.taskId() == null) {
+            throw new IllegalArgumentException("The task id cannot be null");
+        }
+
+        Task task = tasks.stream()
+                .filter(t -> t.getId().equals(command.taskId()))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("The task does not exist"));
+
+        task.finishTask();
+    }
+
+    public void addSession(Session session) {
+        boolean exists = sessions.stream()
+                .anyMatch(s -> s.getId().equals(session.getId()));
+
+        if (exists) {
+            throw new IllegalArgumentException("The session already exists");
+        }
+
+        sessions.add(session);
+    }
+
+    public void addPrescription(Prescription prescription) {
+        boolean exists = prescriptions.stream()
+                .anyMatch(p -> p.getId().equals(prescription.getId()));
+
+        if (exists) {
+            throw new IllegalArgumentException("The prescription already exists");
+        }
+
+        prescriptions.add(prescription);
     }
 
 }

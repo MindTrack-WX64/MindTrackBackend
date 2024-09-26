@@ -7,6 +7,7 @@ public record AddBiologicalFunctionCommand(
         int hunger,
         int sleep,
         int hydration,
-        int energy
+        int energy,
+        Long treatmentPlanId
 ) {
 }

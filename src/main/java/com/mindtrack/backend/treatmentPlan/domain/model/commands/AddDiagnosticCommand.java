@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public record AddDiagnosticCommand(
         String name,
         String description,
-        LocalDate date
+        LocalDate date,
+        Long treatmentPlanId
 ) {
 }

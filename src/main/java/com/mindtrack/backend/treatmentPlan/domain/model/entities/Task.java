@@ -1,6 +1,9 @@
 package com.mindtrack.backend.treatmentPlan.domain.model.entities;
 
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -8,6 +11,11 @@ import java.time.LocalDate;
 @Embeddable
 @Getter
 public class Task {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private final String title;
     private final String description;
     private LocalDate startDate;

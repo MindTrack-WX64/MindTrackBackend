@@ -57,8 +57,9 @@ public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan>
     @CollectionTable(name="treatment_diagnostics", joinColumns=@JoinColumn(name="treatment_plan_id"))
     private List<Diagnostic> diagnostics;
 
-    @ElementCollection
-    @CollectionTable(name="treatment_tasks", joinColumns=@JoinColumn(name="treatment_plan_id"))
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "treatment_tasks", joinColumns = @JoinColumn(name = "treatment_plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id"))
     private List<Task> tasks;
 
 

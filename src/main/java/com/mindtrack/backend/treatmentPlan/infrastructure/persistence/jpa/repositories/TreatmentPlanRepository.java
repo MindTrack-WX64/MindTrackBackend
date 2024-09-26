@@ -11,20 +11,22 @@ import java.util.Optional;
 
 @Repository
 public interface TreatmentPlanRepository extends JpaRepository<TreatmentPlan, Long> {
-    List<TreatmentPlan> getAll();
-    List<TreatmentPlan> getAllTreatmentPlanBiologicalFunctions();
+    Optional<TreatmentPlan> findById(Long id);
+    List<TreatmentPlan> findAll();
+    //Optional<TreatmentPlan> getAllTreatmentPlanBiologicalFunctions();
     List<TreatmentPlan> getAllByPatientFullName(String patientFullName);
     List<TreatmentPlan> getAllByProfessionalFullName(String professionalFullName);
-    List<TreatmentPlan> getAllTreatmentPlanDiagnostics();
+    /*List<TreatmentPlan> getAllTreatmentPlanDiagnostics();
     List<TreatmentPlan> getAllTreatmentPlanPatientStates();
     List<TreatmentPlan> getAllTreatmentPlanSessions();
     List<TreatmentPlan> getAllTreatmentPlanTasks();
-    List<TreatmentPlan> getAllByTasksCompleted(boolean tasksCompleted);
+    List<TreatmentPlan> getAllByTasksCompleted(boolean tasksCompleted);**/
+
     List<TreatmentPlan> getAllByPatientFullNameAndProfessionalFullName(String patientFullName, String professionalFullName);
 
     @Query("SELECT tp.id AS treatmentPlanId, AVG(bf.hunger) AS averageHunger, AVG(bf.sleep) AS averageSleep, AVG(bf.hydration) AS averageHydration " +
             "FROM TreatmentPlan tp " +
             "JOIN tp.biologicalFunctions bf " +
             "GROUP BY tp.id")
-    List<TreatmentPlanStatistics> getTreatmentPlanBiologicalFunctionsStatistics();
+    List<TreatmentPlanStatistics> getTreatmentPlanBiologicalFunctionsStatistics(Long treatmentPlanId);
 }

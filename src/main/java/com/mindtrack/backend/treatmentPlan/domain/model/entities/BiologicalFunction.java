@@ -37,6 +37,6 @@ public class BiologicalFunction {
     }
 
     public String getBiologicalFunctionInfo() {
-        return ("Date: " + date + "Hunger: " + hunger + "Sleep: " + sleep + "Hydration: " + hydration + "Energy: " + energy);
+        return ("Date: " + date + " - " + "Hunger: " + hunger + " - " + "Sleep: " + sleep + " - " + "Hydration: " + " - " + hydration + "Energy: " + " - " + energy);
     }
 }

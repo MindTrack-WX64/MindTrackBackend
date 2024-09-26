@@ -1,4 +1,4 @@
 package com.mindtrack.backend.treatmentPlan.domain.model.queries;
 
-public record GetAllTreatmentPlanDiagnosticQuery(Long id) {
+public record GetTreatmentPlanByIdQuery(Long treatmentPlanId) {
 }

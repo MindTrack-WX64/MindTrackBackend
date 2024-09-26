@@ -27,6 +27,6 @@ public class PatientState {
     }
 
     public String getPatientStateInfo() {
-        return ("Date: " + date + "Mood State: " + moodState);
+        return ("Date: " + date + " - " + "Mood State: " + moodState);
     }
 }

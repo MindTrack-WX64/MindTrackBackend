@@ -4,7 +4,7 @@ import com.mindtrack.backend.treatmentPlan.domain.model.commands.AddDiagnosticCo
 import com.mindtrack.backend.treatmentPlan.interfaces.rest.resources.AddDiagnosticResource;
 
 public class AddDiagnosticCommandFromResourceAssembler {
-    public AddDiagnosticCommand toCommand(AddDiagnosticResource resource) {
+    public static AddDiagnosticCommand toCommandFromResource(AddDiagnosticResource resource) {
         return new AddDiagnosticCommand(
                 resource.name(),
                 resource.description(),

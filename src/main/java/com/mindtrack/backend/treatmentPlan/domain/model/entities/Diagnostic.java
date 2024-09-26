@@ -25,6 +25,6 @@ public class Diagnostic {
     }
 
     public String getDiagnosticInfo() {
-        return ("Name: " + name + "Description: " + description + "Date: " + date);
+        return ("Name: " + name + " - " + "Description: " + description + " - " + "Date: " + date);
     }
 }

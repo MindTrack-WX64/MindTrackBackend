@@ -8,6 +8,7 @@ import com.mindtrack.backend.treatmentPlan.infrastructure.persistence.jpa.reposi
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TreatmentPlanQueryServiceImpl implements TreatmentPlanQueryService {
@@ -18,8 +19,8 @@ public class TreatmentPlanQueryServiceImpl implements TreatmentPlanQueryService 
     }
 
     @Override
-    public List<TreatmentPlan> handle(GetAllTreatmentPlanBiologicalFunctionQuery query) {
-        return this.treatmentPlanRepository.getAllTreatmentPlanBiologicalFunctions();
+    public Optional<TreatmentPlan> handle(GetTreatmentPlanByIdQuery query) {
+        return this.treatmentPlanRepository.findById(query.treatmentPlanId());
     }
 
     @Override
@@ -30,6 +31,16 @@ public class TreatmentPlanQueryServiceImpl implements TreatmentPlanQueryService 
     @Override
     public List<TreatmentPlan> handle(GetAllTreatmentPlanByProfessionalFullNameQuery query) {
         return this.treatmentPlanRepository.getAllByProfessionalFullName(query.professionalFullName());
+    }
+
+    @Override
+    public List<TreatmentPlanStatistics> handle(GetTreatmentPlanStatisticsDataQuery query) {
+        return this.treatmentPlanRepository.getTreatmentPlanBiologicalFunctionsStatistics(query.id());
+    }
+
+    /*@Override
+    public List<TreatmentPlan> handle(GetAllTreatmentPlanBiologicalFunctionQuery query) {
+        return this.treatmentPlanRepository.getAllTreatmentPlanBiologicalFunctions();
     }
 
     @Override
@@ -50,10 +61,7 @@ public class TreatmentPlanQueryServiceImpl implements TreatmentPlanQueryService 
     @Override
     public List<TreatmentPlan> handle(GetAllTreatmentPlanTaskQuery query) {
         return this.treatmentPlanRepository.getAllTreatmentPlanTasks();
-    }
+    }*/
 
-    @Override
-    public List<TreatmentPlanStatistics> handle(GetTreatmentPlanStatisticsDataQuery query) {
-        return this.treatmentPlanRepository.getTreatmentPlanBiologicalFunctionsStatistics();
-    }
+
 }

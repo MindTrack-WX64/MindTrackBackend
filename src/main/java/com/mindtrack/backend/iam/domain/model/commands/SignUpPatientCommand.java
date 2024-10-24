@@ -8,7 +8,6 @@ public record SignUpPatientCommand(
         String fullName,
         String email,
         String phone,
-        LocalDate birthDate,
-        boolean clinicalHistoryStatus
+        LocalDate birthDate
 ) {
 }

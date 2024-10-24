@@ -61,7 +61,7 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         Long patientId = this.externalProfileService.createPatient(
                 command.fullName(), command.email(), command.phone(),
-                command.birthDate(), command.clinicalHistoryStatus(), user.getId()
+                command.birthDate(), user.getId()
         );
 
         if (patientId == 0L) {

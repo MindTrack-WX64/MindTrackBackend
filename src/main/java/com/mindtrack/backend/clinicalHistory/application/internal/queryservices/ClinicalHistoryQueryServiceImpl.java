@@ -3,7 +3,7 @@ package com.mindtrack.backend.clinicalHistory.application.internal.queryservices
 import com.mindtrack.backend.clinicalHistory.domain.model.aggregates.ClinicalHistory;
 import com.mindtrack.backend.clinicalHistory.domain.model.queries.GetAllClinicalHistoryQuery;
 import com.mindtrack.backend.clinicalHistory.domain.model.queries.GetClinicalHistoryByIdQuery;
-import com.mindtrack.backend.clinicalHistory.domain.model.queries.GetClinicalHistoryByPatientEmailQuery;
+import com.mindtrack.backend.clinicalHistory.domain.model.queries.GetClinicalHistoryByPatientIdQuery;
 import com.mindtrack.backend.clinicalHistory.domain.services.ClinicalHistoryQueryService;
 import com.mindtrack.backend.clinicalHistory.infrastructure.persistence.jpa.repositories.ClinicalHistoryRepository;
 import org.springframework.stereotype.Service;
@@ -25,8 +25,8 @@ public class ClinicalHistoryQueryServiceImpl implements ClinicalHistoryQueryServ
     }
 
     @Override
-    public Optional<ClinicalHistory> handle(GetClinicalHistoryByPatientEmailQuery query) {
-        return this.clinicalHistoryRepository.findByPatientEmail(query.patientEmail());
+    public Optional<ClinicalHistory> handle(GetClinicalHistoryByPatientIdQuery query) {
+        return this.clinicalHistoryRepository.findByPatientId(query.patientId());
     }
 
     @Override

@@ -1,12 +1,15 @@
 package com.mindtrack.backend.shared.domain.aggregates;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 
+@EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public class Profile extends AuditableAbstractAggregateRoot<Profile> {
 

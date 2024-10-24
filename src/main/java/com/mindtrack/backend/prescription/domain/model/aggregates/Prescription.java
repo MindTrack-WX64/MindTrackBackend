@@ -1,13 +1,11 @@
 package com.mindtrack.backend.prescription.domain.model.aggregates;
 
-import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
 import com.mindtrack.backend.prescription.domain.model.commands.AddPillsToDescriptionCommand;
 import com.mindtrack.backend.prescription.domain.model.commands.CreatePrescriptionCommand;
 import com.mindtrack.backend.prescription.domain.model.entities.Pill;
-import com.mindtrack.backend.session.domain.model.entities.Professional;
 import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -18,13 +16,11 @@ import java.util.List;
 @Getter
 public class Prescription extends AuditableAbstractAggregateRoot<Prescription> {
 
-    @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
+    @NotNull
+    private Long patientId;
 
-    @ManyToOne
-    @JoinColumn(name = "professional_id", nullable = false)
-    private Professional professional;
+    @NotNull
+    private Long professionalId;
 
     @ElementCollection
     @CollectionTable(name = "prescription_pills", joinColumns = @JoinColumn(name = "prescription_id"))
@@ -38,9 +34,9 @@ public class Prescription extends AuditableAbstractAggregateRoot<Prescription> {
 
     public Prescription() {}
 
-    public Prescription(CreatePrescriptionCommand command, Patient patient, Professional professional) {
-        this.patient = patient;
-        this.professional = professional;
+    public Prescription(CreatePrescriptionCommand command) {
+        this.patientId = command.patientId();
+        this.professionalId = command.professionalId();
         this.pills = new ArrayList<Pill>();
         this.startDate = command.startDate();
         this.endDate = command.endDate();

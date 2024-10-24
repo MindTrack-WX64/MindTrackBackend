@@ -1,5 +1,6 @@
 package com.mindtrack.backend.iam.application.internal.outboundservices.acl;
 
+import com.mindtrack.backend.profiles.interfaces.acl.ProfileContextFacade;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,17 +18,16 @@ public class ExternalProfileService {
                               String email,
                               String phone,
                               LocalDate birthDate,
-                              boolean clinicalHistoryStatus,
                               Long userId) {
         return profileContextFacade.createPatient(
-                fullName, email, phone, birthDate, clinicalHistoryStatus, userId);
+                fullName, email, phone, birthDate, userId);
     }
 
     public Long createProfessional(
                                     String fullName,
                                     String email,
                                     String phone,
-                                    String birthDate,
+                                    LocalDate birthDate,
                                     String professionalType,
                                     Long userId) {
         return profileContextFacade.createProfessional(

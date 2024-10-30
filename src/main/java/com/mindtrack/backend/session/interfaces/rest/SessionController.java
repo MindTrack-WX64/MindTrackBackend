@@ -1,17 +1,17 @@
 package com.mindtrack.backend.session.interfaces.rest;
 
 import com.mindtrack.backend.session.domain.model.aggregates.Session;
-import com.mindtrack.backend.session.domain.model.queries.GetAllProfessionalSessionsQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetAllSessionBySessionDateQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetAllSessionQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetSessionByIdQuery;
+import com.mindtrack.backend.session.domain.model.entities.Note;
+import com.mindtrack.backend.session.domain.model.queries.*;
 import com.mindtrack.backend.session.domain.services.SessionCommandService;
 import com.mindtrack.backend.session.domain.services.SessionQueryService;
 import com.mindtrack.backend.session.interfaces.rest.resources.CreateNoteResource;
 import com.mindtrack.backend.session.interfaces.rest.resources.CreateSessionResource;
+import com.mindtrack.backend.session.interfaces.rest.resources.NoteResource;
 import com.mindtrack.backend.session.interfaces.rest.resources.SessionResource;
 import com.mindtrack.backend.session.interfaces.rest.transform.CreateNoteCommandFromResourceAssembler;
 import com.mindtrack.backend.session.interfaces.rest.transform.CreateSessionCommandFromResourceAssembler;
+import com.mindtrack.backend.session.interfaces.rest.transform.NoteResourceFromEntityAssembler;
 import com.mindtrack.backend.session.interfaces.rest.transform.SessionResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -137,5 +137,23 @@ public class SessionController {
         Optional<Session> session = this.sessionCommandService.handle(CreateNoteCommandFromResourceAssembler.toCommandFromResource(resource));
         return session.map(source -> ResponseEntity.ok(SessionResourceFromEntityAssembler.toResourceFromEntity(source)))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @Operation(summary = "Get all notes by session id", description = "Get all notes by session id")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The notes were retrieved successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
+    })
+    @GetMapping("/notes/{sessionId}")
+    public ResponseEntity<List<NoteResource>> getAllNotesBySessionId(@PathVariable Long sessionId) {
+        var query = new GetAllNotesBySessionIdQuery(sessionId);
+        List<Note> notes = this.sessionQueryService.handle(query);
+
+        if (notes.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<NoteResource> resources = notes.stream().map(NoteResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(resources);
     }
 }

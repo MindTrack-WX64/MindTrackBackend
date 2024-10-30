@@ -24,44 +24,17 @@ public class TreatmentPlanQueryServiceImpl implements TreatmentPlanQueryService 
     }
 
     @Override
-    public List<TreatmentPlan> handle(GetAllTreatmentPlanByPatientFullNameQuery query) {
-        return this.treatmentPlanRepository.getAllByPatientFullName(query.patientFullName());
+    public List<TreatmentPlan> handle(GetAllTreatmentPlanByPatientIdQuery query) {
+        return this.treatmentPlanRepository.getAllByPatientId(query.patientId());
     }
 
     @Override
-    public List<TreatmentPlan> handle(GetAllTreatmentPlanByProfessionalFullNameQuery query) {
-        return this.treatmentPlanRepository.getAllByProfessionalFullName(query.professionalFullName());
+    public List<TreatmentPlan> handle(GetAllTreatmentPlanByProfessionalIdQuery query) {
+        return this.treatmentPlanRepository.getAllByProfessionalId(query.professionalId());
     }
 
     @Override
     public List<TreatmentPlanStatistics> handle(GetTreatmentPlanStatisticsDataQuery query) {
         return this.treatmentPlanRepository.getTreatmentPlanBiologicalFunctionsStatistics(query.id());
     }
-
-    /*@Override
-    public List<TreatmentPlan> handle(GetAllTreatmentPlanBiologicalFunctionQuery query) {
-        return this.treatmentPlanRepository.getAllTreatmentPlanBiologicalFunctions();
-    }
-
-    @Override
-    public List<TreatmentPlan> handle(GetAllTreatmentPlanDiagnosticQuery query) {
-        return this.treatmentPlanRepository.getAllTreatmentPlanDiagnostics();
-    }
-
-    @Override
-    public List<TreatmentPlan> handle(GetAllTreatmentPlanPatientStateQuery query) {
-        return this.treatmentPlanRepository.getAllTreatmentPlanPatientStates();
-    }
-
-    @Override
-    public List<TreatmentPlan> handle(GetAllTreatmentPlanSessionQuery query) {
-        return this.treatmentPlanRepository.getAllTreatmentPlanSessions();
-    }
-
-    @Override
-    public List<TreatmentPlan> handle(GetAllTreatmentPlanTaskQuery query) {
-        return this.treatmentPlanRepository.getAllTreatmentPlanTasks();
-    }*/
-
-
 }

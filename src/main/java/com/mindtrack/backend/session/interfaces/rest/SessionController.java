@@ -91,14 +91,14 @@ public class SessionController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @Operation(summary = "Get session by Professional Email", description = "Get session by Professional Email")
+    @Operation(summary = "Get session by Professional Id", description = "Get session by Professional Id")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The session was retrieved successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
     })
-    @GetMapping("/professional/{email}")
-    public ResponseEntity<List<SessionResource>> getSessionByProfessionalEmail(@PathVariable String email) {
-        var query = new GetAllProfessionalSessionsQuery(email);
+    @GetMapping("/professional/{id}")
+    public ResponseEntity<List<SessionResource>> getSessionByProfessionalEmail(@PathVariable Long id) {
+        var query = new GetAllProfessionalSessionsQuery(id);
         List<Session> sessions = this.sessionQueryService.handle(query);
 
         if (sessions.isEmpty()) {

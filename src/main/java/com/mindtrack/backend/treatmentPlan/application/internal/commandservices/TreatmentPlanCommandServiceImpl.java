@@ -1,12 +1,8 @@
 package com.mindtrack.backend.treatmentPlan.application.internal.commandservices;
 
-import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
-import com.mindtrack.backend.clinicalHistory.infrastructure.persistence.jpa.repositories.PatientRepository;
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
 import com.mindtrack.backend.prescription.infrastructure.persistence.jpa.repositories.PrescriptionRepository;
 import com.mindtrack.backend.session.domain.model.aggregates.Session;
-import com.mindtrack.backend.session.domain.model.entities.Professional;
-import com.mindtrack.backend.session.infrastructure.persistence.jpa.repositories.ProfessionalRepository;
 import com.mindtrack.backend.session.infrastructure.persistence.jpa.repositories.SessionRepository;
 import com.mindtrack.backend.treatmentPlan.domain.model.aggregates.TreatmentPlan;
 import com.mindtrack.backend.treatmentPlan.domain.model.commands.*;
@@ -19,15 +15,11 @@ import java.util.Optional;
 @Service
 public class TreatmentPlanCommandServiceImpl implements TreatmentPlanCommandService {
     private final TreatmentPlanRepository treatmentPlanRepository;
-    private final PatientRepository patientRepository;
-    private final ProfessionalRepository professionalRepository;
     private final SessionRepository sessionRepository;
     private final PrescriptionRepository prescriptionRepository;
 
-    public TreatmentPlanCommandServiceImpl(TreatmentPlanRepository treatmentPlanRepository, PatientRepository patientRepository, ProfessionalRepository professionalRepository, SessionRepository sessionRepository, PrescriptionRepository prescriptionRepository) {
+    public TreatmentPlanCommandServiceImpl(TreatmentPlanRepository treatmentPlanRepository, SessionRepository sessionRepository, PrescriptionRepository prescriptionRepository) {
         this.treatmentPlanRepository = treatmentPlanRepository;
-        this.patientRepository = patientRepository;
-        this.professionalRepository = professionalRepository;
         this.sessionRepository = sessionRepository;
         this.prescriptionRepository = prescriptionRepository;
     }
@@ -35,13 +27,13 @@ public class TreatmentPlanCommandServiceImpl implements TreatmentPlanCommandServ
 
     @Override
     public Optional<TreatmentPlan> handle(CreateTreatmentPlanCommand command) {
-        Patient patient = this.patientRepository.findById(command.patientId())
+        /*atient patient = this.patientRepository.findById(command.patientId())
                 .orElseThrow(() -> new IllegalArgumentException("Patient not found"));
 
         Professional professional = this.professionalRepository.findById(command.professionalId())
-                .orElseThrow(() -> new IllegalArgumentException("Professional not found"));
+                .orElseThrow(() -> new IllegalArgumentException("Professional not found")); */
 
-        TreatmentPlan treatmentPlan = new TreatmentPlan(command, patient, professional);
+        TreatmentPlan treatmentPlan = new TreatmentPlan(command);
 
         var savedTreatmentPlan = this.treatmentPlanRepository.save(treatmentPlan);
 

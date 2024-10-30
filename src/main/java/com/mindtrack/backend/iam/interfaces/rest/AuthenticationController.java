@@ -1,14 +1,8 @@
 package com.mindtrack.backend.iam.interfaces.rest;
 
 import com.mindtrack.backend.iam.domain.services.UserCommandService;
-import com.mindtrack.backend.iam.interfaces.rest.resources.AuthenticatedUserResource;
-import com.mindtrack.backend.iam.interfaces.rest.resources.SignInResource;
-import com.mindtrack.backend.iam.interfaces.rest.resources.SignUpResource;
-import com.mindtrack.backend.iam.interfaces.rest.resources.UserResource;
-import com.mindtrack.backend.iam.interfaces.rest.transform.AuthenticatedUserResourceFromEntityAssembler;
-import com.mindtrack.backend.iam.interfaces.rest.transform.SignInCommandFromResourceAssembler;
-import com.mindtrack.backend.iam.interfaces.rest.transform.SignUpCommandFromResourceAssembler;
-import com.mindtrack.backend.iam.interfaces.rest.transform.UserResourceFromEntityAssembler;
+import com.mindtrack.backend.iam.interfaces.rest.resources.*;
+import com.mindtrack.backend.iam.interfaces.rest.transform.*;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -53,21 +47,29 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticatedUserResource);
     }
 
-    /**
-     * Handles the sign-up request.
-     *
-     * @param signUpResource the sign-up request body.
-     * @return the created user resource.
-     */
-    @PostMapping("/sign-up")
-    public ResponseEntity<UserResource> signUp(@RequestBody SignUpResource signUpResource) {
-        var signUpCommand = SignUpCommandFromResourceAssembler.toCommandFromResource(signUpResource);
-        var user = userCommandService.handle(signUpCommand);
+    @PostMapping("/sign-up/patient")
+    public ResponseEntity<UserResource> signUpPatient(@RequestBody SignUpPatientResource resource) {
+        var command = SignUpPatientCommandFromResourceAssembler.toCommandFromResource(resource);
+        var user = userCommandService.handle(command);
         if (user.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
-        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
-        return new ResponseEntity<>(userResource, HttpStatus.CREATED);
 
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+
+        return new ResponseEntity<>(userResource, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/sign-up/professional")
+    public ResponseEntity<UserResource> signUpProfessional(@RequestBody SignUpProfessionalResource resource) {
+        var command = SignUpProfessionalCommandFromResourceAssembler.toCommandFromResource(resource);
+        var user = userCommandService.handle(command);
+        if (user.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        var userResource = UserResourceFromEntityAssembler.toResourceFromEntity(user.get());
+
+        return new ResponseEntity<>(userResource, HttpStatus.CREATED);
     }
 }

@@ -3,7 +3,7 @@ package com.mindtrack.backend.clinicalHistory.interfaces.rest;
 import com.mindtrack.backend.clinicalHistory.domain.model.aggregates.ClinicalHistory;
 import com.mindtrack.backend.clinicalHistory.domain.model.queries.GetAllClinicalHistoryQuery;
 import com.mindtrack.backend.clinicalHistory.domain.model.queries.GetClinicalHistoryByIdQuery;
-import com.mindtrack.backend.clinicalHistory.domain.model.queries.GetClinicalHistoryByPatientEmailQuery;
+import com.mindtrack.backend.clinicalHistory.domain.model.queries.GetClinicalHistoryByPatientIdQuery;
 import com.mindtrack.backend.clinicalHistory.domain.services.ClinicalHistoryCommandService;
 import com.mindtrack.backend.clinicalHistory.domain.services.ClinicalHistoryQueryService;
 import com.mindtrack.backend.clinicalHistory.interfaces.rest.resources.AddSymptomResource;
@@ -100,14 +100,14 @@ public class ClinicalHistoryController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @Operation(summary = "Get all clinical histories by patient email", description = "Get all clinical histories by patient email")
+    @Operation(summary = "Get all clinical histories by patient id", description = "Get all clinical histories by patient id")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The clinical histories were retrieved successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
     })
-    @GetMapping("/patient/{email}")
-    public ResponseEntity<List<ClinicalHistoryResource>> getClinicalHistoriesByPatientEmail(@PathVariable String email) {
-        var query = new GetClinicalHistoryByPatientEmailQuery(email);
+    @GetMapping("/patient/{id}")
+    public ResponseEntity<List<ClinicalHistoryResource>> getClinicalHistoriesByPatientEmail(@PathVariable Long id) {
+        var query = new GetClinicalHistoryByPatientIdQuery(id);
         Optional<ClinicalHistory> clinicalHistories = this.clinicalHistoryQueryService.handle(query);
 
         if (clinicalHistories.isEmpty()) {

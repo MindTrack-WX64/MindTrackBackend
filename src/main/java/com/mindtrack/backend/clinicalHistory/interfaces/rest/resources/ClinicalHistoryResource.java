@@ -5,7 +5,7 @@ import java.util.List;
 
 public record ClinicalHistoryResource(
         Long clinicalHistoryId,
-        PatientResource patient,
+        Long patientId,
         String background,
         String consultationReason,
         LocalDate consultationDate,

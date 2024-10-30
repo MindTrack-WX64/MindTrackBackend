@@ -1,5 +1,6 @@
 package com.mindtrack.backend.iam.application.internal.queryservices;
 import com.mindtrack.backend.iam.domain.model.aggregates.User;
+import com.mindtrack.backend.iam.domain.model.queries.CheckUserByIdQuery;
 import com.mindtrack.backend.iam.domain.model.queries.GetAllUsersQuery;
 import com.mindtrack.backend.iam.domain.model.queries.GetUserByIdQuery;
 import com.mindtrack.backend.iam.domain.model.queries.GetUserByUsernameQuery;
@@ -31,5 +32,10 @@ public class UserQueryServiceImpl implements UserQueryService {
     @Override
     public Optional<User> handle(GetUserByUsernameQuery query) {
         return userRepository.findByUsername(query.username());
+    }
+
+    @Override
+    public boolean handle(CheckUserByIdQuery query) {
+        return userRepository.existsById(query.userId());
     }
 }

@@ -1,16 +1,15 @@
 package com.mindtrack.backend.treatmentPlan.domain.model.aggregates;
 
 import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
-import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
 import com.mindtrack.backend.session.domain.model.aggregates.Session;
-import com.mindtrack.backend.session.domain.model.entities.Professional;
 import com.mindtrack.backend.treatmentPlan.domain.model.commands.*;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.BiologicalFunction;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.Diagnostic;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.PatientState;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.Task;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 import java.time.LocalDate;
@@ -22,13 +21,11 @@ import java.util.HashSet;
 @Entity
 @Getter
 public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan> {
-    @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
+    @NotNull
+    private Long patientId;
 
-    @ManyToOne
-    @JoinColumn(name = "professional_id", nullable = false)
-    private Professional professional;
+    @NotNull
+    private Long professionalId;
 
     private LocalDate startDate;
     private LocalDate endDate;
@@ -68,9 +65,9 @@ public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan>
         this.prescriptions = new HashSet<>();
     }
 
-    public TreatmentPlan(CreateTreatmentPlanCommand command, Patient patient, Professional professional) {
-        this.patient = patient;
-        this.professional = professional;
+    public TreatmentPlan(CreateTreatmentPlanCommand command) {
+        this.patientId = command.patientId();
+        this.professionalId = command.professionalId();
         this.startDate = LocalDate.now();
         this.endDate = null;
         this.isFinished = false;

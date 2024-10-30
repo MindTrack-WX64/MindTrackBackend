@@ -1,8 +1,8 @@
 package com.mindtrack.backend.treatmentPlan.interfaces.rest;
 
 import com.mindtrack.backend.treatmentPlan.domain.model.aggregates.TreatmentPlan;
-import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetAllTreatmentPlanByPatientFullNameQuery;
-import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetAllTreatmentPlanByProfessionalFullNameQuery;
+import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetAllTreatmentPlanByPatientIdQuery;
+import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetAllTreatmentPlanByProfessionalIdQuery;
 import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetTreatmentPlanByIdQuery;
 import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetTreatmentPlanStatisticsDataQuery;
 import com.mindtrack.backend.treatmentPlan.domain.model.valuobjects.TreatmentPlanStatistics;
@@ -17,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -174,14 +173,14 @@ public class TreatmentPlanController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @Operation(summary = "Get all treatment plans by patient full name", description = "Get all treatment plans with the given patient full name")
+    @Operation(summary = "Get all treatment plans by patient id", description = "Get all treatment plans with the given patient id")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The treatment plans were found successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
     })
-    @GetMapping("/patient/{fullName}")
-    public ResponseEntity<List<TreatmentPlanResource>> getAllTreatmentPlanByPatientFullName(@PathVariable String fullName) {
-        var query = new GetAllTreatmentPlanByPatientFullNameQuery(fullName);
+    @GetMapping("/patient/{id}")
+    public ResponseEntity<List<TreatmentPlanResource>> getAllTreatmentPlanByPatientFullName(@PathVariable Long id) {
+        var query = new GetAllTreatmentPlanByPatientIdQuery(id);
         List<TreatmentPlan> treatmentPlans = this.treatmentPlanQueryService.handle(query);
 
         if (treatmentPlans.isEmpty()) {
@@ -192,14 +191,14 @@ public class TreatmentPlanController {
         return ResponseEntity.status(OK).body(treatmentPlanResources);
     }
 
-    @Operation(summary = "Get all treatment plans by professional full name", description = "Get all treatment plans with the given patient full name")
+    @Operation(summary = "Get all treatment plans by professional id", description = "Get all treatment plans with the given patient id")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The treatment plans were found successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
     })
-    @GetMapping("/professional/{fullName}")
-    public ResponseEntity<List<TreatmentPlanResource>> getAllTreatmentPlanByProfessionalFullName(@PathVariable String fullName) {
-        var query = new GetAllTreatmentPlanByProfessionalFullNameQuery(fullName);
+    @GetMapping("/professional/{id}")
+    public ResponseEntity<List<TreatmentPlanResource>> getAllTreatmentPlanByProfessionalFullName(@PathVariable Long id) {
+        var query = new GetAllTreatmentPlanByProfessionalIdQuery(id);
         List<TreatmentPlan> treatmentPlans = this.treatmentPlanQueryService.handle(query);
 
         if (treatmentPlans.isEmpty()) {

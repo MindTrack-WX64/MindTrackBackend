@@ -1,7 +1,6 @@
 package com.mindtrack.backend.clinicalHistory.domain.model.aggregates;
 
 import com.mindtrack.backend.clinicalHistory.domain.model.commands.AddSymptomCommand;
-import com.mindtrack.backend.clinicalHistory.domain.model.entities.Patient;
 import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
 import com.mindtrack.backend.clinicalHistory.domain.model.commands.CreateClinicalHistoryCommand;
 import jakarta.persistence.*;
@@ -16,9 +15,7 @@ import java.util.List;
 @Entity
 public class ClinicalHistory extends AuditableAbstractAggregateRoot<ClinicalHistory> {
 
-    @OneToOne
-    @JoinColumn(name = "patient_id", nullable = false)
-    private Patient patient;
+    private Long patientId;
 
     @NotBlank
     @Column(nullable = false)
@@ -38,8 +35,8 @@ public class ClinicalHistory extends AuditableAbstractAggregateRoot<ClinicalHist
     public ClinicalHistory() {
     }
 
-    public ClinicalHistory(CreateClinicalHistoryCommand command, Patient patient) {
-        this.patient = patient;
+    public ClinicalHistory(CreateClinicalHistoryCommand command) {
+        this.patientId = command.patientId();
         this.background = command.background();
         this.consultationReason = command.consultationReason();
         this.consultationDate = command.consultationDate();

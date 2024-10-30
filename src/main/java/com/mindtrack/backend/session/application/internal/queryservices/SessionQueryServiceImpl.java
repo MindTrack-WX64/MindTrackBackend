@@ -27,7 +27,7 @@ public class SessionQueryServiceImpl implements SessionQueryService {
 
     @Override
     public List<Session> handle(GetAllProfessionalSessionsQuery query) {
-        return this.sessionRepository.findAllByProfessionalEmail(query.professionalEmail());
+        return this.sessionRepository.findAllByProfessionalId(query.professionalId());
     }
 
     @Override

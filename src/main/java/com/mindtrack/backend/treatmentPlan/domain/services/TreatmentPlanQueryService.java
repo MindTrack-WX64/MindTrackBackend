@@ -9,13 +9,8 @@ import java.util.Optional;
 
 public interface TreatmentPlanQueryService {
     Optional<TreatmentPlan> handle(GetTreatmentPlanByIdQuery query);
-    List<TreatmentPlan> handle(GetAllTreatmentPlanByPatientFullNameQuery query);
-    List<TreatmentPlan> handle(GetAllTreatmentPlanByProfessionalFullNameQuery query);
-    /**List<TreatmentPlan> handle(GetAllTreatmentPlanBiologicalFunctionQuery query);
-    List<TreatmentPlan> handle(GetAllTreatmentPlanDiagnosticQuery query);
-    List<TreatmentPlan> handle(GetAllTreatmentPlanPatientStateQuery query);
-    List<TreatmentPlan> handle(GetAllTreatmentPlanSessionQuery query);
-    List<TreatmentPlan> handle(GetAllTreatmentPlanTaskQuery query);*/
+    List<TreatmentPlan> handle(GetAllTreatmentPlanByPatientIdQuery query);
+    List<TreatmentPlan> handle(GetAllTreatmentPlanByProfessionalIdQuery query);
     List<TreatmentPlanStatistics> handle(GetTreatmentPlanStatisticsDataQuery query);
 
 }

@@ -6,5 +6,5 @@ import com.mindtrack.backend.profiles.domain.model.commands.CreatePatientCommand
 import java.util.Optional;
 
 public interface PatientCommandService {
-    Optional<Patient> handle(CreatePatientCommand command, Long userId);
+    Optional<Patient> handle(CreatePatientCommand command);
 }

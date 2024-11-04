@@ -17,8 +17,8 @@ public class ProfessionalCommandServiceImpl implements ProfessionalCommandServic
     }
 
     @Override
-    public Optional<Professional> handle(CreateProfessionalCommand command, Long userId) {
-        Professional professional = new Professional(command, userId);
+    public Optional<Professional> handle(CreateProfessionalCommand command) {
+        Professional professional = new Professional(command);
 
         this.professionalRepository.save(professional);
         return Optional.of(professional);

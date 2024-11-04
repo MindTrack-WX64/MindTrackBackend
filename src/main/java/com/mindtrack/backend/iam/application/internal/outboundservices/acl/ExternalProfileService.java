@@ -1,15 +1,15 @@
 package com.mindtrack.backend.iam.application.internal.outboundservices.acl;
 
-import com.mindtrack.backend.profiles.interfaces.acl.ProfileContextFacade;
+import com.mindtrack.backend.profiles.interfaces.acl.ProfilesContextFacade;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
 @Service
 public class ExternalProfileService {
-    private final ProfileContextFacade profileContextFacade;
+    private final ProfilesContextFacade profileContextFacade;
 
-    public ExternalProfileService(ProfileContextFacade profileContextFacade) {
+    public ExternalProfileService(ProfilesContextFacade profileContextFacade) {
         this.profileContextFacade = profileContextFacade;
     }
 

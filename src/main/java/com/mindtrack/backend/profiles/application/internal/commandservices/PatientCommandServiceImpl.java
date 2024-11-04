@@ -17,8 +17,8 @@ public class PatientCommandServiceImpl implements PatientCommandService {
     }
 
     @Override
-    public Optional<Patient> handle(CreatePatientCommand command, Long userId) {
-        Patient patient = new Patient(command, userId);
+    public Optional<Patient> handle(CreatePatientCommand command) {
+        Patient patient = new Patient(command);
 
         this.patientRepository.save(patient);
 

@@ -1,7 +1,7 @@
 package com.mindtrack.backend.profiles.interfaces.rest;
 
-import com.mindtrack.backend.profiles.domain.model.queries.GetPatientByUserIdQuery;
-import com.mindtrack.backend.profiles.domain.model.queries.GetProfessionalByUserIdQuery;
+import com.mindtrack.backend.profiles.domain.model.queries.GetPatientByIdQuery;
+import com.mindtrack.backend.profiles.domain.model.queries.GetProfessionalByIdQuery;
 import com.mindtrack.backend.profiles.domain.services.PatientQueryService;
 import com.mindtrack.backend.profiles.domain.services.ProfessionalQueryService;
 import com.mindtrack.backend.profiles.interfaces.rest.resources.PatientResource;
@@ -38,7 +38,7 @@ public class ProfilesController {
     })
     @GetMapping("/patients/{userId}")
     public ResponseEntity<PatientResource> getPatient(@PathVariable Long userId) {
-        var query = new GetPatientByUserIdQuery(userId);
+        var query = new GetPatientByIdQuery(userId);
         var patient = this.patientQueryService.handle(query);
         if (patient.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -56,7 +56,7 @@ public class ProfilesController {
     })
     @GetMapping("/professionals/{userId}")
     public ResponseEntity<ProfessionalResource> getProfessional(@PathVariable Long userId) {
-        var query = new GetProfessionalByUserIdQuery(userId);
+        var query = new GetProfessionalByIdQuery(userId);
         var professional = this.professionalQueryService.handle(query);
         if (professional.isEmpty()) {
             return ResponseEntity.notFound().build();

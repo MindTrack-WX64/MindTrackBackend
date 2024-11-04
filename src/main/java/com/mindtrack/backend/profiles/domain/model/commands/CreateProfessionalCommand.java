@@ -7,6 +7,7 @@ public record CreateProfessionalCommand(
         String fullName,
         String email,
         String phone,
-        LocalDate birthDate
+        String birthDate,
+        Long userId
 ) {
 }

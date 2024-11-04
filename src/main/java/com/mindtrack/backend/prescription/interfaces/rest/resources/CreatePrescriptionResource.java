@@ -6,7 +6,7 @@ import java.util.List;
 public record CreatePrescriptionResource(
         Long patientId,
         Long professionalId,
-        LocalDate startDate,
-        LocalDate endDate
+        String startDate,
+        String endDate
 ) {
 }

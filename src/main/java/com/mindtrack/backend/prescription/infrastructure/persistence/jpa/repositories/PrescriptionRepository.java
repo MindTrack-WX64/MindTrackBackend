@@ -11,10 +11,5 @@ import java.util.Optional;
 
 @Repository
 public interface PrescriptionRepository extends JpaRepository<Prescription, Long> {
-    Optional<Prescription> findById(Long id);
 
-    List<Prescription> findAll();
-
-    @Query("SELECT p FROM Prescription p JOIN p.pills pill WHERE pill.name = :pillName")
-    List<Prescription> findPrescriptionsByPillName(@Param("pillName") String pillName);
 }

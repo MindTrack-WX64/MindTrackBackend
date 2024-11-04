@@ -7,13 +7,13 @@ import com.mindtrack.backend.prescription.interfaces.rest.resources.PillResource
 import java.util.List;
 
 public class AddPillsToDescriptionCommandFromResourceAssembler {
-    public static AddPillsToDescriptionCommand toCommandFromResource(AddPillsToDescriptionResource resource) {
+    public static AddPillsToDescriptionCommand toCommandFromResource(AddPillsToDescriptionResource resource, Long id) {
         return new AddPillsToDescriptionCommand(
                 resource.name(),
                 resource.description(),
                 resource.quantity(),
                 resource.frequency(),
-                resource.prescriptionId()
+                id
         );
     }
 }

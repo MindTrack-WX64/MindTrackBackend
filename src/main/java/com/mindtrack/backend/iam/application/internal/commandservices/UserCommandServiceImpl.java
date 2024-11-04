@@ -57,7 +57,12 @@ public class UserCommandServiceImpl implements UserCommandService {
         List<Role> roles = List.of(patientRole);
 
         var user = new User(command.username(), hashingService.encode(command.password()), roles);
+
         this.userRepository.save(user);
+
+        if (user.getId() == null) {
+            throw new RuntimeException("Error creating user");
+        }
 
         Optional<Long> patientId = this.externalProfileService.createPatient(
                 command.fullName(), command.email(), command.phone(),
@@ -83,7 +88,12 @@ public class UserCommandServiceImpl implements UserCommandService {
         List<Role> roles = List.of(professionalRole);
 
         var user = new User(command.username(), hashingService.encode(command.password()), roles);
+
         this.userRepository.save(user);
+
+        if (user.getId() == null) {
+            throw new RuntimeException("Error creating user");
+        }
 
         Optional<Long> professionalId = this.externalProfileService.createProfessional(
                 command.fullName(), command.email(), command.phone(), command.birthDate(),

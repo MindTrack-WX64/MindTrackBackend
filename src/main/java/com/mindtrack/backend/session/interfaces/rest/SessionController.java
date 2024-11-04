@@ -58,24 +58,6 @@ public class SessionController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @Operation(summary = "Get all sessions", description = "Get all sessions")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The sessions were retrieved successfully"),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
-    })
-    @GetMapping
-    public ResponseEntity<List<SessionResource>> getAllSessions() {
-        var query = new GetAllSessionQuery();
-        List<Session> sessions = this.sessionQueryService.handle(query);
-
-        if (sessions.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        List<SessionResource> resources = sessions.stream().map(SessionResourceFromEntityAssembler::toResourceFromEntity).toList();
-        return ResponseEntity.ok(resources);
-    }
-
     @Operation(summary = "Get a session by id", description = "Get a session by id")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The session was retrieved successfully"),
@@ -97,26 +79,8 @@ public class SessionController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
     })
     @GetMapping("/professional/{id}")
-    public ResponseEntity<List<SessionResource>> getSessionByProfessionalEmail(@PathVariable Long id) {
-        var query = new GetAllProfessionalSessionsQuery(id);
-        List<Session> sessions = this.sessionQueryService.handle(query);
-
-        if (sessions.isEmpty()) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        List<SessionResource> resources = sessions.stream().map(SessionResourceFromEntityAssembler::toResourceFromEntity).toList();
-        return ResponseEntity.ok(resources);
-    }
-
-    @Operation(summary = "Get session by Session Date", description = "Get session by Session Date")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The session was retrieved successfully"),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
-    })
-    @GetMapping("/date/{date}")
-    public ResponseEntity<List<SessionResource>> getSessionByDate(@PathVariable LocalDate date) {
-        var query = new GetAllSessionBySessionDateQuery(date);
+    public ResponseEntity<List<SessionResource>> getSessionByProfessionalId(@PathVariable Long id) {
+        var query = new GetAllSessionsByProfessionalIdQuery(id);
         List<Session> sessions = this.sessionQueryService.handle(query);
 
         if (sessions.isEmpty()) {
@@ -132,9 +96,9 @@ public class SessionController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The notes were added to the session successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
     })
-    @PostMapping("/notes")
-    public ResponseEntity<SessionResource> addNotesToSession(@RequestBody CreateNoteResource resource) {
-        Optional<Session> session = this.sessionCommandService.handle(CreateNoteCommandFromResourceAssembler.toCommandFromResource(resource));
+    @PostMapping("/{sessionId}/notes")
+    public ResponseEntity<SessionResource> addNotesToSession(@RequestBody CreateNoteResource resource, @PathVariable Long sessionId) {
+        Optional<Session> session = this.sessionCommandService.handle(CreateNoteCommandFromResourceAssembler.toCommandFromResource(resource, sessionId));
         return session.map(source -> ResponseEntity.ok(SessionResourceFromEntityAssembler.toResourceFromEntity(source)))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }

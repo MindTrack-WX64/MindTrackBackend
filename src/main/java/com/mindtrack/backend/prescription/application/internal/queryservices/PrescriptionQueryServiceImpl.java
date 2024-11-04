@@ -1,7 +1,6 @@
 package com.mindtrack.backend.prescription.application.internal.queryservices;
 
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
-import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByPillNameQuery;
 import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionQuery;
 import com.mindtrack.backend.prescription.domain.model.queries.GetPrescriptionByIdQuery;
 import com.mindtrack.backend.prescription.domain.services.PrescriptionQueryService;
@@ -29,8 +28,4 @@ public class PrescriptionQueryServiceImpl implements PrescriptionQueryService {
         return this.prescriptionRepository.findAll();
     }
 
-    @Override
-    public List<Prescription> handle(GetAllPrescriptionByPillNameQuery query) {
-        return this.prescriptionRepository.findPrescriptionsByPillName(query.pillName());
-    }
 }

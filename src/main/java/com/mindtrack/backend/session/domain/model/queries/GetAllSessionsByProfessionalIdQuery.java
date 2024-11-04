@@ -1,6 +1,6 @@
 package com.mindtrack.backend.session.domain.model.queries;
 
-public record GetAllProfessionalSessionsQuery(
+public record GetAllSessionsByProfessionalIdQuery(
         Long professionalId
 ) {
 }

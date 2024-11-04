@@ -18,10 +18,10 @@ public class Diagnostic {
         this.date = null;
     }
 
-    public Diagnostic(String name, String description, LocalDate date) {
+    public Diagnostic(String name, String description) {
         this.name = name;
         this.description = description;
-        this.date = date;
+        this.date = LocalDate.now();
     }
 
     public String getDiagnosticInfo() {

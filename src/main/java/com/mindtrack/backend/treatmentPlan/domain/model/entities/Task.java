@@ -17,14 +17,14 @@ public class Task {
     private final String description;
     private LocalDate startDate;
     private LocalDate endDate;
-    private boolean completed;
+    private boolean status;
 
     public Task() {
         this.title = null;
         this.description = null;
         this.startDate = null;
         this.endDate = null;
-        this.completed = false;
+        this.status = false;
     }
 
     public Task(String title, String description) {
@@ -38,7 +38,7 @@ public class Task {
         this.description = description;
         this.startDate = null;
         this.endDate = null;
-        this.completed = false;
+        this.status = false;
     }
 
     public void startTask() {
@@ -47,10 +47,11 @@ public class Task {
 
     public void finishTask() {
         this.endDate = LocalDate.now();
-        this.completed = true;
+        this.status = true;
     }
 
     public String getTaskInfo() {
-        return ("Title: " + title + " - " + "Description: " + description + " - " + "Start Date: " + startDate + " - " + "End Date: " + endDate + " - " + "Completed: " + completed);
+        return ("Title: " + title + " - " + "Description: " + description + " - " + "Start Date: " + startDate + " - "
+                + "End Date: " + endDate + " - " + "Status: " + status);
     }
 }

@@ -32,9 +32,4 @@ public class TreatmentPlanQueryServiceImpl implements TreatmentPlanQueryService 
     public List<TreatmentPlan> handle(GetAllTreatmentPlanByProfessionalIdQuery query) {
         return this.treatmentPlanRepository.getAllByProfessionalId(query.professionalId());
     }
-
-    @Override
-    public List<TreatmentPlanStatistics> handle(GetTreatmentPlanStatisticsDataQuery query) {
-        return this.treatmentPlanRepository.getTreatmentPlanBiologicalFunctionsStatistics(query.id());
-    }
 }

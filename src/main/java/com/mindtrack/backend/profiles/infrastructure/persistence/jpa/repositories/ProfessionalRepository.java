@@ -8,4 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface ProfessionalRepository extends JpaRepository<Professional, Long> {
+    Optional<Professional> findByUserId(Long userId);
 }

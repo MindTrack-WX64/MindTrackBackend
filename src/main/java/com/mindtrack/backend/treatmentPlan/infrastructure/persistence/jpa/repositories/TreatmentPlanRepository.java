@@ -11,14 +11,6 @@ import java.util.Optional;
 
 @Repository
 public interface TreatmentPlanRepository extends JpaRepository<TreatmentPlan, Long> {
-    Optional<TreatmentPlan> findById(Long id);
-    List<TreatmentPlan> findAll();
     List<TreatmentPlan> getAllByPatientId(Long patientId);
     List<TreatmentPlan> getAllByProfessionalId(Long professionalId);
-
-    @Query("SELECT tp.id AS treatmentPlanId, AVG(bf.hunger) AS averageHunger, AVG(bf.sleep) AS averageSleep, AVG(bf.hydration) AS averageHydration " +
-            "FROM TreatmentPlan tp " +
-            "JOIN tp.biologicalFunctions bf " +
-            "GROUP BY tp.id")
-    List<TreatmentPlanStatistics> getTreatmentPlanBiologicalFunctionsStatistics(Long treatmentPlanId);
 }

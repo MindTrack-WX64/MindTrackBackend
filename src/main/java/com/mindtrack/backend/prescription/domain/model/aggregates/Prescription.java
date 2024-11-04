@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +26,10 @@ public class Prescription extends AuditableAbstractAggregateRoot<Prescription> {
     private List<Pill> pills;
 
     @Column(nullable = false)
-    LocalDate startDate;
+    String startDate;
 
     @Column(nullable = false)
-    LocalDate endDate;
+    String endDate;
 
     public Prescription() {}
 

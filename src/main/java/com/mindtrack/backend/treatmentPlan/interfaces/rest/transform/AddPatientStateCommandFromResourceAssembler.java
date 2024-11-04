@@ -1,14 +1,14 @@
 package com.mindtrack.backend.treatmentPlan.interfaces.rest.transform;
 
 import com.mindtrack.backend.treatmentPlan.domain.model.commands.AddPatientStateCommand;
-import com.mindtrack.backend.treatmentPlan.interfaces.rest.resources.AddPatientStateResource;
+import com.mindtrack.backend.treatmentPlan.domain.model.valuobjects.MoodStates;
 
 public class AddPatientStateCommandFromResourceAssembler {
-    public static AddPatientStateCommand toCommandFromResource(AddPatientStateResource resource) {
+    public static AddPatientStateCommand toCommandFromResource(String moodState, Long id) {
+        MoodStates moodStates = MoodStates.valueOf(moodState);
         return new AddPatientStateCommand(
-                resource.date(),
-                resource.moodState(),
-                resource.treatmentPlanId()
+                moodStates,
+                id
         );
     }
 }

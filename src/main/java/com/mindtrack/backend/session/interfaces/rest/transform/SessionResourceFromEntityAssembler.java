@@ -8,13 +8,11 @@ import java.util.List;
 
 public class SessionResourceFromEntityAssembler {
     public static SessionResource toResourceFromEntity(Session entity) {
-        List<NoteResource> noteResources = entity.getNotes().stream().map(NoteResourceFromEntityAssembler::toResourceFromEntity).toList();
         return new SessionResource(
                 entity.getId(),
                 entity.getPatientId(),
                 entity.getProfessionalId(),
-                entity.getSessionDate(),
-                noteResources
+                entity.getSessionDate()
         );
     }
 }

@@ -25,12 +25,6 @@ public class PrescriptionCommandServiceImpl implements PrescriptionCommandServic
         Professional professional = this.professionalRepository.findById(command.professionalId())
                 .orElseThrow(() -> new IllegalArgumentException("Professional not found")); */
 
-        if (command.startDate().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("The start date must be after today");
-        }
-        if (command.endDate().isBefore(command.startDate())) {
-            throw new IllegalArgumentException("The end date must be after the start date");
-        }
         Prescription prescription = new Prescription(command);
         var savedPrescription = prescriptionRepository.save(prescription);
         return Optional.of(savedPrescription);

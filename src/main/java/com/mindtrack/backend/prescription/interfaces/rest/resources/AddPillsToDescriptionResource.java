@@ -4,7 +4,6 @@ public record AddPillsToDescriptionResource(
         String name,
         String description,
         int quantity,
-        String frequency,
-        Long prescriptionId
+        String frequency
 ) {
 }

@@ -4,12 +4,11 @@ import com.mindtrack.backend.treatmentPlan.domain.model.commands.AddDiagnosticCo
 import com.mindtrack.backend.treatmentPlan.interfaces.rest.resources.AddDiagnosticResource;
 
 public class AddDiagnosticCommandFromResourceAssembler {
-    public static AddDiagnosticCommand toCommandFromResource(AddDiagnosticResource resource) {
+    public static AddDiagnosticCommand toCommandFromResource(AddDiagnosticResource resource, Long id) {
         return new AddDiagnosticCommand(
                 resource.name(),
                 resource.description(),
-                resource.date(),
-                resource.treatmentPlanId()
+                id
         );
     }
 }

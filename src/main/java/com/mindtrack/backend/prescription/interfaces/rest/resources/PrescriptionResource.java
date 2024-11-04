@@ -7,8 +7,8 @@ public record PrescriptionResource(
         Long prescriptionId,
         Long patientId,
         Long professionalId,
-        LocalDate startDate,
-        LocalDate endDate,
+        String startDate,
+        String endDate,
         List<PillResource> pills
 ) {
 }

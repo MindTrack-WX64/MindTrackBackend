@@ -4,14 +4,13 @@ import com.mindtrack.backend.treatmentPlan.domain.model.commands.AddBiologicalFu
 import com.mindtrack.backend.treatmentPlan.interfaces.rest.resources.AddBiologicalFunctionResource;
 
 public class AddBiologicalFunctionsCommandFromResourceAssembler {
-    public static AddBiologicalFunctionCommand toCommandFromResource(AddBiologicalFunctionResource resource) {
+    public static AddBiologicalFunctionCommand toCommandFromResource(AddBiologicalFunctionResource resource, Long id) {
         return new AddBiologicalFunctionCommand(
-                resource.date(),
                 resource.hunger(),
                 resource.sleep(),
                 resource.hydration(),
                 resource.hunger(),
-                resource.treatmentPlanId()
+                id
         );
     }
 }

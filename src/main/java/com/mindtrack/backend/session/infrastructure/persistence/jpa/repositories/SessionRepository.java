@@ -10,8 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
-    Optional<Session> findById(Long id);
-    List<Session> findAll();
     List<Session> findAllByProfessionalId(Long professionalId);
-    List<Session> findAllBySessionDate(LocalDate date);
 }

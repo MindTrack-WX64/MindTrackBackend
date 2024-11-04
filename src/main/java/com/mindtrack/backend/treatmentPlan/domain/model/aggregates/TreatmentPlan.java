@@ -81,81 +81,73 @@ public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan>
     }
 
     public void addPatientState(AddPatientStateCommand command) {
-        if (command.moodState() == null || command.date() == null) {
-            throw new IllegalArgumentException("The mood state and date cannot be null");
-        }
 
-        // Verificar si ya existe un estado para la fecha proporcionada
+        // Verify if a mood state already exists for the current date
         boolean exists = patientStates.stream()
-                .anyMatch(state -> state.getDate().equals(command.date()));
+                .anyMatch(state -> state.getDate().equals(LocalDate.now()));
 
         if (exists) {
             throw new IllegalArgumentException("A patient state already exists for this date");
         }
 
-        // Si no existe, agregar el nuevo estado del paciente
-        PatientState newState = new PatientState(command.date(), command.moodState());
+        // If it does not exist, add the new mood state
+        PatientState newState = new PatientState(command.moodState());
         patientStates.add(newState);
     }
 
     public void addBiologicalFunction(AddBiologicalFunctionCommand command) {
-        if (command.hunger() == 0 || command.sleep() == 0 || command.hydration() == 0 || command.energy() == 0) {
-            throw new IllegalArgumentException("The hunger, sleep, hydration and energy values cannot be 0");
-        }
 
-        // Verificar si ya existe una función biológica para la fecha proporcionada
+        // Verify if a biological function already exists for the current date
         boolean exists = biologicalFunctions.stream()
-                .anyMatch(biologicalFunction -> biologicalFunction.getDate().equals(command.date()));
+                .anyMatch(biologicalFunction -> biologicalFunction.getDate().equals(LocalDate.now()));
 
         if (exists) {
             throw new IllegalArgumentException("A biological function already exists for this date");
         }
 
-        // Si no existe, agregar la nueva función biológica
-        BiologicalFunction biologicalFunction = new BiologicalFunction(command.date(), command.hunger(), command.sleep(), command.hydration(), command.energy());
+        // If it does not exist, add the new biological function
+        BiologicalFunction biologicalFunction = new BiologicalFunction(command.hunger(), command.sleep(), command.hydration(), command.energy());
         biologicalFunctions.add(biologicalFunction);
     }
 
     public void addDiagnostic(AddDiagnosticCommand command) {
-        if (command.date() == null || command.description() == null || command.name() == null) {
-            throw new IllegalArgumentException("The date, description and name cannot be null");
-        }
-        Diagnostic diagnostic = new Diagnostic(command.name(), command.description(), command.date());
+        Diagnostic diagnostic = new Diagnostic(command.name(), command.description());
         diagnostics.add(diagnostic);
     }
 
     public void addTask(AddTaskCommand command) {
-        if (command.title() == null || command.description() == null) {
-            throw new IllegalArgumentException("The title and description cannot be null");
-        }
         Task task = new Task(command.title(), command.description());
         tasks.add(task);
     }
 
-    public void startTask(StartTaskCommand command) {
-        if (command.taskId() == null) {
-            throw new IllegalArgumentException("The task id cannot be null");
+    public void executeTask(ExecuteTaskCommand command) {
+        var task = findTask(command.taskId());
+
+        switch (command.action()) {
+            case "start":
+                if (!task.isStatus()) {
+                    task.startTask();
+                } else {
+                    throw new IllegalArgumentException("Task already started");
+                }
+                break;
+            case "finish":
+                if (task.isStatus()) {
+                    task.finishTask();
+                } else {
+                    throw new IllegalArgumentException("Task not started");
+                }
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid action: " + command.action());
         }
-
-        Task task = tasks.stream()
-                .filter(t -> t.getId().equals(command.taskId()))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("The task does not exist"));
-
-        task.startTask();
     }
 
-    public void finishTask(FinishTaskCommand command) {
-        if (command.taskId() == null) {
-            throw new IllegalArgumentException("The task id cannot be null");
-        }
-
-        Task task = tasks.stream()
-                .filter(t -> t.getId().equals(command.taskId()))
+    private Task findTask(Long taskId) {
+        return tasks.stream()
+                .filter(t -> t.getId().equals(taskId))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("The task does not exist"));
-
-        task.finishTask();
+                .orElseThrow(() -> new IllegalArgumentException("Task not found"));
     }
 
     public void addSession(Session session) {

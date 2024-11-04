@@ -6,6 +6,7 @@ import com.mindtrack.backend.session.domain.model.aggregates.Session;
 import com.mindtrack.backend.session.infrastructure.persistence.jpa.repositories.SessionRepository;
 import com.mindtrack.backend.treatmentPlan.domain.model.aggregates.TreatmentPlan;
 import com.mindtrack.backend.treatmentPlan.domain.model.commands.*;
+import com.mindtrack.backend.treatmentPlan.domain.model.entities.Task;
 import com.mindtrack.backend.treatmentPlan.domain.services.TreatmentPlanCommandService;
 import com.mindtrack.backend.treatmentPlan.infrastructure.persistence.jpa.repositories.TreatmentPlanRepository;
 import org.springframework.stereotype.Service;
@@ -119,26 +120,15 @@ public class TreatmentPlanCommandServiceImpl implements TreatmentPlanCommandServ
     }
 
     @Override
-    public Optional<TreatmentPlan> handle(FinishTaskCommand command) {
-        TreatmentPlan treatmentPlan = this.treatmentPlanRepository.findById(command.treatmentPlanId())
+    public Optional<Task> handle(ExecuteTaskCommand command) {
+        var treatmentPlan = this.treatmentPlanRepository.findById(command.treatmentPlanId())
                 .orElseThrow(() -> new IllegalArgumentException("Treatment Plan not found"));
 
-        treatmentPlan.finishTask(command);
+        treatmentPlan.executeTask(command);
 
         var savedTreatmentPlan = this.treatmentPlanRepository.save(treatmentPlan);
-
-        return Optional.of(savedTreatmentPlan);
+        return Optional.of(savedTreatmentPlan.getTasks().get(savedTreatmentPlan.getTasks().size() - 1));
     }
 
-    @Override
-    public Optional<TreatmentPlan> handle(StartTaskCommand command) {
-        TreatmentPlan treatmentPlan = this.treatmentPlanRepository.findById(command.treatmentPlanId())
-                .orElseThrow(() -> new IllegalArgumentException("Treatment Plan not found"));
 
-        treatmentPlan.startTask(command);
-
-        var savedTreatmentPlan = this.treatmentPlanRepository.save(treatmentPlan);
-
-        return Optional.of(savedTreatmentPlan);
-    }
 }

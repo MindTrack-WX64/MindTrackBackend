@@ -17,8 +17,8 @@ public class PatientState {
         this.moodState = null;
     }
 
-    public PatientState(LocalDate date, MoodStates moodState) {
-        this.date = date;
+    public PatientState(MoodStates moodState) {
+        this.date = LocalDate.now();
         this.moodState = moodState;
     }
 

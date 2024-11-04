@@ -94,9 +94,11 @@ public class PrescriptionController {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The pill was added successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
     })
-    @PutMapping("/pills")
-    public ResponseEntity<PrescriptionResource> addPillToPrescription(@RequestBody AddPillsToDescriptionResource resource) {
-        Optional<Prescription> prescription = this.prescriptionCommandService.handle(AddPillsToDescriptionCommandFromResourceAssembler.toCommandFromResource(resource));
+    @PutMapping("/{prescriptionId}/pills")
+    public ResponseEntity<PrescriptionResource> addPillToPrescription(@RequestBody AddPillsToDescriptionResource resource,
+                                                                      @PathVariable Long prescriptionId) {
+        Optional<Prescription> prescription = this.prescriptionCommandService
+                .handle(AddPillsToDescriptionCommandFromResourceAssembler.toCommandFromResource(resource, prescriptionId));
         return prescription.map(source -> ResponseEntity.ok(PrescriptionResourceFromEntityAssembler.toResourceFromEntity(source)))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }

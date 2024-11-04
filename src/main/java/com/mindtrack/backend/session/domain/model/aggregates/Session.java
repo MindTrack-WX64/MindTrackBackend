@@ -8,7 +8,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class Session extends AuditableAbstractAggregateRoot<Session> {
     private Long professionalId;
 
     @Column(nullable = false)
-    private LocalDate sessionDate;
+    private String sessionDate;
 
     @ElementCollection
     @CollectionTable(name = "session_notes", joinColumns = @JoinColumn(name = "session_id"))

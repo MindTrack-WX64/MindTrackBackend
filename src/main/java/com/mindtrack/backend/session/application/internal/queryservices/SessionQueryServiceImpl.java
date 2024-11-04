@@ -24,18 +24,8 @@ public class SessionQueryServiceImpl implements SessionQueryService {
     }
 
     @Override
-    public List<Session> handle(GetAllProfessionalSessionsQuery query) {
+    public List<Session> handle(GetAllSessionsByProfessionalIdQuery query) {
         return this.sessionRepository.findAllByProfessionalId(query.professionalId());
-    }
-
-    @Override
-    public List<Session> handle(GetAllSessionBySessionDateQuery query) {
-        return this.sessionRepository.findAllBySessionDate(query.sessionDate());
-    }
-
-    @Override
-    public List<Session> handle(GetAllSessionQuery query) {
-        return this.sessionRepository.findAll();
     }
 
     @Override

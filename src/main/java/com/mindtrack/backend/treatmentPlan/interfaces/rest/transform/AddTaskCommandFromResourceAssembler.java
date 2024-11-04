@@ -4,11 +4,11 @@ import com.mindtrack.backend.treatmentPlan.domain.model.commands.AddTaskCommand;
 import com.mindtrack.backend.treatmentPlan.interfaces.rest.resources.AddTaskResource;
 
 public class AddTaskCommandFromResourceAssembler {
-    public static AddTaskCommand toCommandFromResource(AddTaskResource resource) {
+    public static AddTaskCommand toCommandFromResource(AddTaskResource resource, Long id) {
         return new AddTaskCommand(
                 resource.title(),
                 resource.description(),
-                resource.treatmentPlanId()
+                id
         );
     }
 }

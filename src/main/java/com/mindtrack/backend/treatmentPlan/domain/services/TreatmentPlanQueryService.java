@@ -11,6 +11,4 @@ public interface TreatmentPlanQueryService {
     Optional<TreatmentPlan> handle(GetTreatmentPlanByIdQuery query);
     List<TreatmentPlan> handle(GetAllTreatmentPlanByPatientIdQuery query);
     List<TreatmentPlan> handle(GetAllTreatmentPlanByProfessionalIdQuery query);
-    List<TreatmentPlanStatistics> handle(GetTreatmentPlanStatisticsDataQuery query);
-
 }

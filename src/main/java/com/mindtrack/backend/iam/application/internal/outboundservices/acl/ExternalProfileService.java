@@ -4,6 +4,7 @@ import com.mindtrack.backend.profiles.interfaces.acl.ProfilesContextFacade;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Service
 public class ExternalProfileService {
@@ -13,25 +14,29 @@ public class ExternalProfileService {
         this.profileContextFacade = profileContextFacade;
     }
 
-    public Long createPatient(
+    public Optional<Long> createPatient(
                               String fullName,
                               String email,
                               String phone,
-                              LocalDate birthDate,
+                              String birthDate,
                               Long userId) {
-        return profileContextFacade.createPatient(
+        var profileId = profileContextFacade.createPatient(
                 fullName, email, phone, birthDate, userId);
+
+        return profileId == 0L ? Optional.empty() : Optional.of(profileId);
     }
 
-    public Long createProfessional(
+    public Optional<Long> createProfessional(
                                     String fullName,
                                     String email,
                                     String phone,
-                                    LocalDate birthDate,
+                                    String birthDate,
                                     String professionalType,
                                     Long userId) {
-        return profileContextFacade.createProfessional(
+        var profileId = profileContextFacade.createProfessional(
                 fullName, email, phone, birthDate, professionalType, userId);
+
+        return profileId == 0L ? Optional.empty() : Optional.of(profileId);
     }
 
 }

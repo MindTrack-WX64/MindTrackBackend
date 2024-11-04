@@ -59,12 +59,12 @@ public class UserCommandServiceImpl implements UserCommandService {
         var user = new User(command.username(), hashingService.encode(command.password()), roles);
         this.userRepository.save(user);
 
-        Long patientId = this.externalProfileService.createPatient(
+        Optional<Long> patientId = this.externalProfileService.createPatient(
                 command.fullName(), command.email(), command.phone(),
                 command.birthDate(), user.getId()
         );
 
-        if (patientId == 0L) {
+        if (patientId.isEmpty()) {
             throw new RuntimeException("Error creating patient profile");
         }
 
@@ -85,12 +85,12 @@ public class UserCommandServiceImpl implements UserCommandService {
         var user = new User(command.username(), hashingService.encode(command.password()), roles);
         this.userRepository.save(user);
 
-        Long professionalId = this.externalProfileService.createProfessional(
+        Optional<Long> professionalId = this.externalProfileService.createProfessional(
                 command.fullName(), command.email(), command.phone(), command.birthDate(),
                 command.professionalType(), user.getId()
         );
 
-        if (professionalId == 0L) {
+        if (professionalId.isEmpty()) {
             throw new RuntimeException("Error creating professional profile");
         }
 

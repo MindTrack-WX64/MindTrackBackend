@@ -8,7 +8,7 @@ public record SignUpProfessionalCommand(
         String fullName,
         String email,
         String phone,
-        LocalDate birthDate,
+        String birthDate,
         String professionalType
 ) {
 }

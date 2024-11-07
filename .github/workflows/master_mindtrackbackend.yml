@@ -11,7 +11,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +19,7 @@ jobs:
       - name: Set up Java version
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'microsoft'
 
       - name: Build with Maven
@@ -32,14 +32,14 @@ jobs:
           path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
-
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
@@ -49,9 +49,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_DC8D8D83CE774A83BFC65F7EFDE5D1D0 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_AD67286BE9864077B08C6C81394A9F00 }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_C2C2B0507BD74654906F432896D8E32C }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_2E2A585F53594EDFBB7431B3783B9781 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_74D0240B7A9F434AAF5DD1135E9CE973 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1DDFDAD41146412E9D6A5D6ACD8E5384 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp

@@ -1,5 +1,7 @@
 package com.mindtrack.backend.profiles.interfaces.acl;
 
+import java.time.LocalDate;
+
 /**
  * Profiles context facade
  */
@@ -15,10 +17,10 @@ public interface ProfilesContextFacade {
      * @return The id of the created patient
      */
     Long createPatient(String fullName,
-                              String email,
-                              String phone,
-                              String birthDate,
-                             Long userId);
+                       String email,
+                       String phone,
+                       LocalDate birthDate,
+                       Long userId);
 
     /**
      * Creates a professional profile
@@ -31,10 +33,10 @@ public interface ProfilesContextFacade {
      * @return The id of the created professional
      */
     Long createProfessional(String fullName,
-                                   String email,
-                                   String phone,
-                                   String birthDate,
-                                   String professionalType, Long userId);
+                            String email,
+                            String phone,
+                            LocalDate birthDate,
+                            String professionalType, Long userId);
 
     /**
      * Fetches a profile by patient id

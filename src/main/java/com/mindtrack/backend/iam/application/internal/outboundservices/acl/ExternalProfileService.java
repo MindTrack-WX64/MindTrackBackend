@@ -18,7 +18,7 @@ public class ExternalProfileService {
                               String fullName,
                               String email,
                               String phone,
-                              String birthDate,
+                              LocalDate birthDate,
                               Long userId) {
         var profileId = profileContextFacade.createPatient(
                 fullName, email, phone, birthDate, userId);
@@ -30,7 +30,7 @@ public class ExternalProfileService {
                                     String fullName,
                                     String email,
                                     String phone,
-                                    String birthDate,
+                                    LocalDate birthDate,
                                     String professionalType,
                                     Long userId) {
         var profileId = profileContextFacade.createProfessional(

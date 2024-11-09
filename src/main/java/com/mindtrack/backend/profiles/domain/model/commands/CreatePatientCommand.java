@@ -6,7 +6,7 @@ public record CreatePatientCommand(
         String fullName,
         String email,
         String phone,
-        String birthDate,
+        LocalDate birthDate,
         Long userId
 ) {
 }

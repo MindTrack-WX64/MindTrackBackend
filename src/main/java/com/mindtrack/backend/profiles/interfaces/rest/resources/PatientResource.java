@@ -8,7 +8,7 @@ public record PatientResource(
         String fullName,
         String email,
         String phone,
-        String birthDate,
+        LocalDate birthDate,
         boolean clinicalHistoryStatus
 ) {
 }

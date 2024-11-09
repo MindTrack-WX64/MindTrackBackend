@@ -8,6 +8,8 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDate;
+
 @EntityListeners(AuditingEntityListener.class)
 @MappedSuperclass
 public class Profile extends AuditableAbstractAggregateRoot<Profile> {
@@ -29,14 +31,14 @@ public class Profile extends AuditableAbstractAggregateRoot<Profile> {
 
     @Getter
     @Column(nullable = false)
-    private final String birthDate;
+    private final LocalDate birthDate;
 
     @Getter
     @Column(nullable = false)
     private final Long userId;
 
     // Constructor
-    public Profile(String fullName, String email, String phone, String birthDate, Long userId) {
+    public Profile(String fullName, String email, String phone, LocalDate birthDate, Long userId) {
         this.fullName = fullName;
         this.email = email;
         this.phone = phone;

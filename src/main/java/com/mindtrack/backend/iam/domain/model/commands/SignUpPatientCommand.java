@@ -8,6 +8,6 @@ public record SignUpPatientCommand(
         String fullName,
         String email,
         String phone,
-        String birthDate
+        LocalDate birthDate
 ) {
 }

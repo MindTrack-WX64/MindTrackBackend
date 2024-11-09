@@ -11,6 +11,8 @@ import com.mindtrack.backend.profiles.domain.services.ProfessionalQueryService;
 import com.mindtrack.backend.profiles.interfaces.acl.ProfilesContextFacade;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
 
@@ -27,7 +29,7 @@ public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
     }
 
     @Override
-    public Long createPatient(String fullName, String email, String phone, String birthDate, Long userId) {
+    public Long createPatient(String fullName, String email, String phone, LocalDate birthDate, Long userId) {
         var createPatientCommand = new CreatePatientCommand(
                 fullName,
                 email,
@@ -40,13 +42,13 @@ public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
     }
 
     @Override
-    public Long createProfessional(String fullName, String email, String phone, String birthDate, String professionalType, Long userId) {
+    public Long createProfessional(String fullName, String email, String phone, LocalDate birthDate, String professionalType, Long userId) {
         var createProfessionalCommand = new CreateProfessionalCommand(
+                professionalType,
                 fullName,
                 email,
                 phone,
                 birthDate,
-                professionalType,
                 userId
         );
         var professional = professionalCommandService.handle(createProfessionalCommand);

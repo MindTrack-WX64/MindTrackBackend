@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface SessionQueryService {
     Optional<Session> handle(GetSessionByIdQuery query);
     List<Session> handle(GetAllSessionsByProfessionalIdQuery query);
+    List<Session> handle(GetAllSessionByTreatmentPlanIdQuery query);
     List<Note> handle(GetAllNotesBySessionIdQuery query);
 }

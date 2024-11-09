@@ -5,6 +5,7 @@ import com.mindtrack.backend.session.domain.model.entities.Note;
 import com.mindtrack.backend.session.domain.model.queries.*;
 import com.mindtrack.backend.session.domain.services.SessionQueryService;
 import com.mindtrack.backend.session.infrastructure.persistence.jpa.repositories.SessionRepository;
+import com.mindtrack.backend.shared.domain.valueobjects.TreatmentPlanId;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,13 @@ public class SessionQueryServiceImpl implements SessionQueryService {
     @Override
     public List<Session> handle(GetAllSessionsByProfessionalIdQuery query) {
         return this.sessionRepository.findAllByProfessionalId(query.professionalId());
+    }
+
+    @Override
+    public List<Session> handle(GetAllSessionByTreatmentPlanIdQuery query) {
+        //TODO: Implement verification of the treatment plan id
+        var treatmentPlanId = new TreatmentPlanId(query.treatmentPlanId());
+        return this.sessionRepository.findAllByTreatmentPlanId(treatmentPlanId);
     }
 
     @Override

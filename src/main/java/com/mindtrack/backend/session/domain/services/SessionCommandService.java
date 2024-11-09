@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface SessionCommandService {
     Optional<Session> handle(CreateSessionCommand command);
+    Optional<Session> handle(CreateSessionCommand command, Long treatmentPlanId);
     Optional<Session> handle(CreateNoteCommand command);
 }

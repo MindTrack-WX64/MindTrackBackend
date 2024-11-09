@@ -32,6 +32,16 @@ public class SessionCommandServiceImpl implements SessionCommandService {
     }
 
     @Override
+    public Optional<Session> handle(CreateSessionCommand command, Long treatmentPlanId) {
+        //TODO: implement verify if treatment plan exists
+
+        Session session = new Session(command, treatmentPlanId);
+
+        var sessionSaved = this.sessionRepository.save(session);
+        return Optional.of(sessionSaved);
+    }
+
+    @Override
     public Optional<Session> handle(CreateNoteCommand command) {
         Session session = this.sessionRepository.findById(command.sessionId())
                 .orElseThrow(() -> new RuntimeException("Session not found"));

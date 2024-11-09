@@ -1,8 +1,9 @@
 package com.mindtrack.backend.treatmentPlan.application.internal.queryservices;
 
 import com.mindtrack.backend.treatmentPlan.domain.model.aggregates.TreatmentPlan;
-import com.mindtrack.backend.treatmentPlan.domain.model.queries.*;
-import com.mindtrack.backend.treatmentPlan.domain.model.valuobjects.TreatmentPlanStatistics;
+import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetAllTreatmentPlanByPatientIdQuery;
+import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetAllTreatmentPlanByProfessionalIdQuery;
+import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetTreatmentPlanByIdQuery;
 import com.mindtrack.backend.treatmentPlan.domain.services.TreatmentPlanQueryService;
 import com.mindtrack.backend.treatmentPlan.infrastructure.persistence.jpa.repositories.TreatmentPlanRepository;
 import org.springframework.stereotype.Service;

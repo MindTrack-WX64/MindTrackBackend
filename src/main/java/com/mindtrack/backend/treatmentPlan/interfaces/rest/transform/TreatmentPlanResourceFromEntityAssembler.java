@@ -1,9 +1,5 @@
 package com.mindtrack.backend.treatmentPlan.interfaces.rest.transform;
 
-import com.mindtrack.backend.prescription.interfaces.rest.resources.PrescriptionResource;
-import com.mindtrack.backend.prescription.interfaces.rest.transform.PrescriptionResourceFromEntityAssembler;
-import com.mindtrack.backend.session.interfaces.rest.resources.SessionResource;
-import com.mindtrack.backend.session.interfaces.rest.transform.SessionResourceFromEntityAssembler;
 import com.mindtrack.backend.treatmentPlan.domain.model.aggregates.TreatmentPlan;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.BiologicalFunction;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.Diagnostic;
@@ -15,12 +11,6 @@ import java.util.List;
 
 public class TreatmentPlanResourceFromEntityAssembler {
     public static TreatmentPlanResource toResourceFromEntity(TreatmentPlan entity) {
-        List<SessionResource> sessionResources = entity.getSessions().stream()
-                .map(SessionResourceFromEntityAssembler::toResourceFromEntity)
-                .toList();
-        List<PrescriptionResource> prescriptionResources = entity.getPrescriptions().stream()
-                .map(PrescriptionResourceFromEntityAssembler::toResourceFromEntity)
-                .toList();
         List<String> patientStates = entity.getPatientStates().stream().map(PatientState::getPatientStateInfo).toList();
         List<String> biologicalFunctions = entity.getBiologicalFunctions().stream()
                 .map(BiologicalFunction::getBiologicalFunctionInfo).toList();
@@ -34,8 +24,6 @@ public class TreatmentPlanResourceFromEntityAssembler {
                 entity.getEndDate(),
                 entity.isFinished(),
                 entity.getDescription(),
-                sessionResources,
-                prescriptionResources,
                 patientStates,
                 biologicalFunctions,
                 diagnostics,

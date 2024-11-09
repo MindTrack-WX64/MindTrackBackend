@@ -3,7 +3,6 @@ package com.mindtrack.backend.profiles.domain.model.aggregates;
 import com.mindtrack.backend.profiles.domain.model.commands.CreatePatientCommand;
 import com.mindtrack.backend.profiles.domain.model.valueobjetcs.Profile;
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter

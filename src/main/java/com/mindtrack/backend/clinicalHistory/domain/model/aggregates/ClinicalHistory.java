@@ -1,9 +1,11 @@
 package com.mindtrack.backend.clinicalHistory.domain.model.aggregates;
 
 import com.mindtrack.backend.clinicalHistory.domain.model.commands.AddSymptomCommand;
-import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
 import com.mindtrack.backend.clinicalHistory.domain.model.commands.CreateClinicalHistoryCommand;
-import jakarta.persistence.*;
+import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 

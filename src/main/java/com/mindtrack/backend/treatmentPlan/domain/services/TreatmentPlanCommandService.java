@@ -11,8 +11,6 @@ public interface TreatmentPlanCommandService {
     Optional<TreatmentPlan> handle(AddBiologicalFunctionCommand command);
     Optional<TreatmentPlan> handle(AddDiagnosticCommand command);
     Optional<TreatmentPlan> handle(AddPatientStateCommand command);
-    Optional<TreatmentPlan> handle(AddPrescriptionCommand command);
-    Optional<TreatmentPlan> handle(AddSessionCommand command);
     Optional<TreatmentPlan> handle(AddTaskCommand command);
     Optional<Task> handle(ExecuteTaskCommand command);
 }

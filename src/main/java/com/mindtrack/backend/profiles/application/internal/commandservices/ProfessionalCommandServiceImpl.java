@@ -1,9 +1,9 @@
 package com.mindtrack.backend.profiles.application.internal.commandservices;
 
+import com.mindtrack.backend.profiles.domain.model.aggregates.Professional;
 import com.mindtrack.backend.profiles.domain.model.commands.CreateProfessionalCommand;
 import com.mindtrack.backend.profiles.domain.services.ProfessionalCommandService;
 import com.mindtrack.backend.profiles.infrastructure.persistence.jpa.repositories.ProfessionalRepository;
-import com.mindtrack.backend.profiles.domain.model.aggregates.Professional;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

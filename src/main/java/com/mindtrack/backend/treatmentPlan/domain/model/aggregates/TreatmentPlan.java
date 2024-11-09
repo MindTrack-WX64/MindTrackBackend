@@ -1,8 +1,6 @@
 package com.mindtrack.backend.treatmentPlan.domain.model.aggregates;
 
 import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
-import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
-import com.mindtrack.backend.session.domain.model.aggregates.Session;
 import com.mindtrack.backend.treatmentPlan.domain.model.commands.*;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.BiologicalFunction;
 import com.mindtrack.backend.treatmentPlan.domain.model.entities.Diagnostic;
@@ -15,8 +13,6 @@ import lombok.Getter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.HashSet;
 
 @Entity
 @Getter
@@ -31,16 +27,6 @@ public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan>
     private LocalDate endDate;
     private boolean isFinished;
     private String description;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "treatment_sessions", joinColumns = @JoinColumn(name = "treatment_plan_id"),
-            inverseJoinColumns = @JoinColumn(name = "session_id"))
-    private Set<Session> sessions;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "treatment_prescriptions", joinColumns = @JoinColumn(name = "treatment_plan_id"),
-            inverseJoinColumns = @JoinColumn(name = "prescription_id"))
-    private Set<Prescription> prescriptions;
 
     @ElementCollection
     @CollectionTable(name="treatment_patientStates", joinColumns=@JoinColumn(name="treatment_plan_id"))
@@ -60,9 +46,7 @@ public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan>
     private List<Task> tasks;
 
 
-    public TreatmentPlan() {
-        this.sessions = new HashSet<>();
-        this.prescriptions = new HashSet<>();
+    protected TreatmentPlan() {
     }
 
     public TreatmentPlan(CreateTreatmentPlanCommand command) {
@@ -72,8 +56,6 @@ public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan>
         this.endDate = null;
         this.isFinished = false;
         this.description = command.description();
-        this.sessions = new HashSet<>();
-        this.prescriptions = new HashSet<>();
         this.patientStates = new ArrayList<PatientState>();
         this.biologicalFunctions = new ArrayList<BiologicalFunction>();
         this.diagnostics = new ArrayList<Diagnostic>();
@@ -148,28 +130,6 @@ public class TreatmentPlan extends AuditableAbstractAggregateRoot<TreatmentPlan>
                 .filter(t -> t.getId().equals(taskId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Task not found"));
-    }
-
-    public void addSession(Session session) {
-        boolean exists = sessions.stream()
-                .anyMatch(s -> s.getId().equals(session.getId()));
-
-        if (exists) {
-            throw new IllegalArgumentException("The session already exists");
-        }
-
-        sessions.add(session);
-    }
-
-    public void addPrescription(Prescription prescription) {
-        boolean exists = prescriptions.stream()
-                .anyMatch(p -> p.getId().equals(prescription.getId()));
-
-        if (exists) {
-            throw new IllegalArgumentException("The prescription already exists");
-        }
-
-        prescriptions.add(prescription);
     }
 
 }

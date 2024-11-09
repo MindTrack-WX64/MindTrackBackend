@@ -4,7 +4,6 @@ import com.mindtrack.backend.profiles.domain.model.commands.CreateProfessionalCo
 import com.mindtrack.backend.profiles.domain.model.valueobjetcs.Profile;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter

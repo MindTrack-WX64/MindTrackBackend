@@ -7,7 +7,6 @@ import com.mindtrack.backend.prescription.domain.services.PrescriptionCommandSer
 import com.mindtrack.backend.prescription.infrastructure.persistence.jpa.repositories.PrescriptionRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Service

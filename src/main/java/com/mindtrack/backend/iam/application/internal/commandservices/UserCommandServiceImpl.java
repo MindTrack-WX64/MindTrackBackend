@@ -5,7 +5,6 @@ import com.mindtrack.backend.iam.application.internal.outboundservices.hashing.H
 import com.mindtrack.backend.iam.application.internal.outboundservices.tokens.TokenService;
 import com.mindtrack.backend.iam.domain.model.aggregates.User;
 import com.mindtrack.backend.iam.domain.model.commands.SignInCommand;
-import com.mindtrack.backend.iam.domain.model.commands.SignUpCommand;
 import com.mindtrack.backend.iam.domain.model.commands.SignUpPatientCommand;
 import com.mindtrack.backend.iam.domain.model.commands.SignUpProfessionalCommand;
 import com.mindtrack.backend.iam.domain.model.entities.Role;

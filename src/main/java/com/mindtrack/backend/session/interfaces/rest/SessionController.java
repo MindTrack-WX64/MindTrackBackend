@@ -2,7 +2,10 @@ package com.mindtrack.backend.session.interfaces.rest;
 
 import com.mindtrack.backend.session.domain.model.aggregates.Session;
 import com.mindtrack.backend.session.domain.model.entities.Note;
-import com.mindtrack.backend.session.domain.model.queries.*;
+import com.mindtrack.backend.session.domain.model.queries.GetAllNotesBySessionIdQuery;
+import com.mindtrack.backend.session.domain.model.queries.GetAllSessionByTreatmentPlanIdQuery;
+import com.mindtrack.backend.session.domain.model.queries.GetAllSessionsByProfessionalIdQuery;
+import com.mindtrack.backend.session.domain.model.queries.GetSessionByIdQuery;
 import com.mindtrack.backend.session.domain.services.SessionCommandService;
 import com.mindtrack.backend.session.domain.services.SessionQueryService;
 import com.mindtrack.backend.session.interfaces.rest.resources.CreateNoteResource;

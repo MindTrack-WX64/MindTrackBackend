@@ -6,8 +6,6 @@ import com.mindtrack.backend.treatmentPlan.domain.model.entities.Task;
 import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetAllTreatmentPlanByPatientIdQuery;
 import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetAllTreatmentPlanByProfessionalIdQuery;
 import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetTreatmentPlanByIdQuery;
-import com.mindtrack.backend.treatmentPlan.domain.model.queries.GetTreatmentPlanStatisticsDataQuery;
-import com.mindtrack.backend.treatmentPlan.domain.model.valuobjects.TreatmentPlanStatistics;
 import com.mindtrack.backend.treatmentPlan.domain.services.TreatmentPlanCommandService;
 import com.mindtrack.backend.treatmentPlan.domain.services.TreatmentPlanQueryService;
 import com.mindtrack.backend.treatmentPlan.interfaces.rest.resources.*;
@@ -99,40 +97,6 @@ public class TreatmentPlanController {
     ) {
         Optional<TreatmentPlan> treatmentPlan = this.treatmentPlanCommandService
                 .handle(AddPatientStateCommandFromResourceAssembler.toCommandFromResource(moodState, treatmentPlanId));
-        return treatmentPlan.map(TreatmentPlanResourceFromEntityAssembler::toResourceFromEntity)
-                .map(resource -> ResponseEntity.status(OK).body(resource))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
-    }
-
-    @Operation(summary = "Add prescription to treatment plan", description = "Add a prescription to the treatment plan with the given id")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The prescription was added successfully"),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
-    })
-    @PutMapping("/{treatmentPlanId}/prescription")
-    public ResponseEntity<TreatmentPlanResource> addPrescription(
-            @Param("prescriptionId") Long prescriptionId,
-            @PathVariable Long treatmentPlanId
-    ) {
-        Optional<TreatmentPlan> treatmentPlan = this.treatmentPlanCommandService
-                .handle(AddPrescriptionCommandFromResourceAssembler.toCommandFromResource(prescriptionId, treatmentPlanId));
-        return treatmentPlan.map(TreatmentPlanResourceFromEntityAssembler::toResourceFromEntity)
-                .map(resource -> ResponseEntity.status(OK).body(resource))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
-    }
-
-    @Operation(summary = "Add session to treatment plan", description = "Add a session to the treatment plan with the given id")
-    @ApiResponses(value = {
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The session was added successfully"),
-            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
-    })
-    @PutMapping("/{treatmentPlanId}/session")
-    public ResponseEntity<TreatmentPlanResource> addSession(
-            @Param("sessionId") Long sessionId,
-            @PathVariable Long treatmentPlanId
-    ) {
-        Optional<TreatmentPlan> treatmentPlan = this.treatmentPlanCommandService
-                .handle(AddSessionCommandFromResourceAssembler.toCommandFromResource(sessionId, treatmentPlanId));
         return treatmentPlan.map(TreatmentPlanResourceFromEntityAssembler::toResourceFromEntity)
                 .map(resource -> ResponseEntity.status(OK).body(resource))
                 .orElseGet(() -> ResponseEntity.badRequest().build());

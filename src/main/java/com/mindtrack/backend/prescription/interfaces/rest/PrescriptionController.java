@@ -7,9 +7,9 @@ import com.mindtrack.backend.prescription.domain.services.PrescriptionCommandSer
 import com.mindtrack.backend.prescription.domain.services.PrescriptionQueryService;
 import com.mindtrack.backend.prescription.interfaces.rest.resources.AddPillsToDescriptionResource;
 import com.mindtrack.backend.prescription.interfaces.rest.resources.CreatePrescriptionResource;
+import com.mindtrack.backend.prescription.interfaces.rest.resources.PrescriptionResource;
 import com.mindtrack.backend.prescription.interfaces.rest.transform.AddPillsToDescriptionCommandFromResourceAssembler;
 import com.mindtrack.backend.prescription.interfaces.rest.transform.CreatePrescriptionCommandFromResourceAssembler;
-import com.mindtrack.backend.prescription.interfaces.rest.resources.PrescriptionResource;
 import com.mindtrack.backend.prescription.interfaces.rest.transform.PrescriptionResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -18,7 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 

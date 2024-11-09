@@ -1,6 +1,8 @@
 package com.mindtrack.backend.prescription.interfaces.rest;
 
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
+import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByProfessionalIdQuery;
+import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByTreatmentPlanIdQuery;
 import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionQuery;
 import com.mindtrack.backend.prescription.domain.model.queries.GetPrescriptionByIdQuery;
 import com.mindtrack.backend.prescription.domain.services.PrescriptionCommandService;
@@ -10,6 +12,7 @@ import com.mindtrack.backend.prescription.interfaces.rest.resources.CreatePrescr
 import com.mindtrack.backend.prescription.interfaces.rest.resources.PrescriptionResource;
 import com.mindtrack.backend.prescription.interfaces.rest.transform.AddPillsToDescriptionCommandFromResourceAssembler;
 import com.mindtrack.backend.prescription.interfaces.rest.transform.CreatePrescriptionCommandFromResourceAssembler;
+import com.mindtrack.backend.prescription.interfaces.rest.transform.CreatePrescriptionOfTreatmentPlanCommandFromResourceAssembler;
 import com.mindtrack.backend.prescription.interfaces.rest.transform.PrescriptionResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -55,22 +58,54 @@ public class PrescriptionController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    @Operation(summary = "Get all prescriptions", description = "Get all prescriptions")
+    @Operation(summary = "Create a new prescription of a treatment", description = "Create a new prescription with the given data")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "The prescription was created successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
+    })
+    @PostMapping("/{treatmentId}")
+    public ResponseEntity<PrescriptionResource> createPrescription(@PathVariable Long treatmentId, @RequestBody CreatePrescriptionResource prescriptionResource) {
+        Optional<Prescription> prescription = this.prescriptionCommandService
+                .handle(CreatePrescriptionOfTreatmentPlanCommandFromResourceAssembler.toCommandFromResource(prescriptionResource, treatmentId));
+        return prescription.map(PrescriptionResourceFromEntityAssembler::toResourceFromEntity)
+                .map(resource -> ResponseEntity.status(CREATED).body(resource))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @Operation(summary = "Get all prescriptions of a treatment", description = "Get all prescriptions of a treatment")
     @ApiResponses(value = {
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The prescriptions were obtained successfully"),
             @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
     })
-    @GetMapping
-    public ResponseEntity<List<PrescriptionResource>> getAllPrescriptions() {
-        var query = new GetAllPrescriptionQuery();
+    @GetMapping("/treatment/{treatmentId}")
+    public ResponseEntity<List<PrescriptionResource>> getPrescriptionsByTreatmentId(@PathVariable Long treatmentId) {
+        var query = new GetAllPrescriptionByTreatmentPlanIdQuery(treatmentId);
         List<Prescription> prescriptions = this.prescriptionQueryService.handle(query);
 
-        if (prescriptions.isEmpty()) {
+        if(prescriptions.isEmpty()) {
             return ResponseEntity.badRequest().build();
         }
 
-        List<PrescriptionResource> prescriptionResources = prescriptions.stream().map(PrescriptionResourceFromEntityAssembler::toResourceFromEntity).toList();
-        return ResponseEntity.ok(prescriptionResources);
+        List<PrescriptionResource> resources = prescriptions.stream().map(PrescriptionResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.status(OK).body(resources);
+    }
+
+    @Operation(summary = "Get all prescriptions of a professional", description = "Get all prescriptions of a professional")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The prescriptions were obtained successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
+    })
+    @GetMapping("/professional/{professionalId}")
+    public ResponseEntity<List<PrescriptionResource>> getPrescriptionsByProfessionalId(@PathVariable Long professionalId) {
+        var query = new GetAllPrescriptionByProfessionalIdQuery(professionalId);
+        List<Prescription> prescriptions = this.prescriptionQueryService.handle(query);
+
+        if(prescriptions.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<PrescriptionResource> resources = prescriptions.stream().map(PrescriptionResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.status(OK).body(resources);
     }
 
     @Operation(summary = "Get a prescription by its ID", description = "Get a prescription by its ID")

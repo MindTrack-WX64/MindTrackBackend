@@ -3,6 +3,7 @@ package com.mindtrack.backend.prescription.application.internal.commandservices;
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
 import com.mindtrack.backend.prescription.domain.model.commands.AddPillsToDescriptionCommand;
 import com.mindtrack.backend.prescription.domain.model.commands.CreatePrescriptionCommand;
+import com.mindtrack.backend.prescription.domain.model.commands.CreatePrescriptionOfTreatmentPlanCommand;
 import com.mindtrack.backend.prescription.domain.services.PrescriptionCommandService;
 import com.mindtrack.backend.prescription.infrastructure.persistence.jpa.repositories.PrescriptionRepository;
 import org.springframework.stereotype.Service;
@@ -19,12 +20,15 @@ public class PrescriptionCommandServiceImpl implements PrescriptionCommandServic
 
     @Override
     public Optional<Prescription> handle(CreatePrescriptionCommand command) {
-       /* Patient patient = this.patientRepository.findById(command.patientId())
-                .orElseThrow(() -> new IllegalArgumentException("Patient not found"));
-        Professional professional = this.professionalRepository.findById(command.professionalId())
-                .orElseThrow(() -> new IllegalArgumentException("Professional not found")); */
 
         Prescription prescription = new Prescription(command);
+        var savedPrescription = prescriptionRepository.save(prescription);
+        return Optional.of(savedPrescription);
+    }
+
+    @Override
+    public Optional<Prescription> handle(CreatePrescriptionOfTreatmentPlanCommand command) {
+        var prescription = new Prescription(command);
         var savedPrescription = prescriptionRepository.save(prescription);
         return Optional.of(savedPrescription);
     }

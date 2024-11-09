@@ -1,9 +1,11 @@
 package com.mindtrack.backend.prescription.interfaces.rest.resources;
 
+import java.time.LocalDate;
+
 public record CreatePrescriptionResource(
         Long patientId,
         Long professionalId,
-        String startDate,
-        String endDate
+        LocalDate startDate,
+        LocalDate endDate
 ) {
 }

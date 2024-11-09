@@ -3,7 +3,6 @@ package com.mindtrack.backend.prescription.interfaces.rest;
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
 import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByProfessionalIdQuery;
 import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByTreatmentPlanIdQuery;
-import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionQuery;
 import com.mindtrack.backend.prescription.domain.model.queries.GetPrescriptionByIdQuery;
 import com.mindtrack.backend.prescription.domain.services.PrescriptionCommandService;
 import com.mindtrack.backend.prescription.domain.services.PrescriptionQueryService;

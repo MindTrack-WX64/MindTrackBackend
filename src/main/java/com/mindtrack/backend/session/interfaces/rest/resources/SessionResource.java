@@ -6,6 +6,7 @@ public record SessionResource(
         Long id,
         Long patientId,
         Long professionalId,
-        String sessionDate
+        String sessionDate,
+        Long treatmentPlanId
 ) {
 }

@@ -38,6 +38,7 @@ public class Session extends AuditableAbstractAggregateRoot<Session> {
         this.patientId = command.patientId();
         this.professionalId = command.professionalId();
         this.sessionDate = command.sessionDate();
+        this.treatmentPlanId = new TreatmentPlanId(0L);
         this.notes = new ArrayList<Note>();
     }
 
@@ -52,5 +53,9 @@ public class Session extends AuditableAbstractAggregateRoot<Session> {
     public void addNote(CreateNoteCommand command) {
         Note note = new Note(command.content(), this.sessionDate);
         this.notes.add(note);
+    }
+
+    public Long getTreatmentPlanId() {
+        return this.treatmentPlanId.treatmentPlanId();
     }
 }

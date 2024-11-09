@@ -19,11 +19,6 @@ public class SessionCommandServiceImpl implements SessionCommandService {
 
     @Override
     public Optional<Session> handle(CreateSessionCommand command) {
-        /*Patient patient = this.patientRepository.findById(command.patientId())
-                .orElseThrow(() -> new RuntimeException("Patient not found"));
-
-        Professional professional = this.professionalRepository.findById(command.professionalId())
-                .orElseThrow(() -> new RuntimeException("Professional not found")); */
 
         Session session = new Session(command);
 

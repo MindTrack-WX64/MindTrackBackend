@@ -12,7 +12,8 @@ public class SessionResourceFromEntityAssembler {
                 entity.getId(),
                 entity.getPatientId(),
                 entity.getProfessionalId(),
-                entity.getSessionDate()
+                entity.getSessionDate(),
+                entity.getTreatmentPlanId()
         );
     }
 }

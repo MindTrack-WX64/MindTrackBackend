@@ -1,10 +1,8 @@
-package com.mindtrack.backend.session.interfaces.rest.resources;
+package com.mindtrack.backend.session.domain.model.commands;
 
 import java.time.LocalDate;
-import java.util.List;
 
-public record SessionResource(
-        Long id,
+public record CreateSessionOfTreatmentPlanCommand(
         Long patientId,
         Long professionalId,
         LocalDate sessionDate,

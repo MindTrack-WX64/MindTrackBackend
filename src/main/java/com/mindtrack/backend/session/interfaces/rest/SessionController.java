@@ -9,10 +9,7 @@ import com.mindtrack.backend.session.interfaces.rest.resources.CreateNoteResourc
 import com.mindtrack.backend.session.interfaces.rest.resources.CreateSessionResource;
 import com.mindtrack.backend.session.interfaces.rest.resources.NoteResource;
 import com.mindtrack.backend.session.interfaces.rest.resources.SessionResource;
-import com.mindtrack.backend.session.interfaces.rest.transform.CreateNoteCommandFromResourceAssembler;
-import com.mindtrack.backend.session.interfaces.rest.transform.CreateSessionCommandFromResourceAssembler;
-import com.mindtrack.backend.session.interfaces.rest.transform.NoteResourceFromEntityAssembler;
-import com.mindtrack.backend.session.interfaces.rest.transform.SessionResourceFromEntityAssembler;
+import com.mindtrack.backend.session.interfaces.rest.transform.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -20,7 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,6 +52,38 @@ public class SessionController {
         return session.map(SessionResourceFromEntityAssembler::toResourceFromEntity)
                 .map(resource -> ResponseEntity.status(CREATED).body(resource))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @Operation(summary = "Create a new session of a treatment plan", description = "Create a new session of a treatment plan with the given data")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "201", description = "The session was created successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
+    })
+    @PostMapping("/{treatmentPlanId}")
+    public ResponseEntity<SessionResource> createSessionOfTreatmentPlan(@RequestBody CreateSessionResource sessionResource, @PathVariable Long treatmentPlanId) {
+        Optional<Session> session = this.sessionCommandService
+                .handle(CreateSessionOfTreatmentPlanCommandFromResourceAssembler.toCommandFromResource(sessionResource, treatmentPlanId));
+        return session.map(SessionResourceFromEntityAssembler::toResourceFromEntity)
+                .map(resource -> ResponseEntity.status(CREATED).body(resource))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @Operation(summary = "Get sessions by treatment plan id", description = "Get sessions by treatment plan id")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The sessions were retrieved successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
+    })
+    @GetMapping("/treatment-plan/{id}")
+    public ResponseEntity<List<SessionResource>> getSessionsByTreatmentPlanId(@PathVariable Long id) {
+        var query = new GetAllSessionByTreatmentPlanIdQuery(id);
+        List<Session> sessions = this.sessionQueryService.handle(query);
+
+        if (sessions.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<SessionResource> resources = sessions.stream().map(SessionResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(resources);
     }
 
     @Operation(summary = "Get a session by id", description = "Get a session by id")

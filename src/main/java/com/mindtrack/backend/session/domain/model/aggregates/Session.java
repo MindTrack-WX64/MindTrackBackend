@@ -2,6 +2,7 @@ package com.mindtrack.backend.session.domain.model.aggregates;
 
 import com.mindtrack.backend.session.domain.model.commands.CreateNoteCommand;
 import com.mindtrack.backend.session.domain.model.commands.CreateSessionCommand;
+import com.mindtrack.backend.session.domain.model.commands.CreateSessionOfTreatmentPlanCommand;
 import com.mindtrack.backend.session.domain.model.entities.Note;
 import com.mindtrack.backend.shared.domain.aggregates.AuditableAbstractAggregateRoot;
 import com.mindtrack.backend.shared.domain.valueobjects.TreatmentPlanId;
@@ -9,6 +10,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +27,7 @@ public class Session extends AuditableAbstractAggregateRoot<Session> {
     @Embedded
     private TreatmentPlanId treatmentPlanId;
 
-    @Column(nullable = false)
-    private String sessionDate;
+    private LocalDate sessionDate;
 
     @ElementCollection
     @CollectionTable(name = "session_notes", joinColumns = @JoinColumn(name = "session_id"))
@@ -42,11 +43,11 @@ public class Session extends AuditableAbstractAggregateRoot<Session> {
         this.notes = new ArrayList<Note>();
     }
 
-    public Session(CreateSessionCommand command, Long treatmentPlanId) {
+    public Session(CreateSessionOfTreatmentPlanCommand command) {
         this.patientId = command.patientId();
         this.professionalId = command.professionalId();
         this.sessionDate = command.sessionDate();
-        this.treatmentPlanId = new TreatmentPlanId(treatmentPlanId);
+        this.treatmentPlanId = new TreatmentPlanId(command.treatmentPlanId());
         this.notes = new ArrayList<Note>();
     }
 

@@ -3,15 +3,17 @@ package com.mindtrack.backend.session.domain.model.entities;
 import jakarta.persistence.Embeddable;
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Embeddable
 @Getter
 public class Note {
     private String content;
-    private String creationDate;
+    private LocalDate creationDate;
 
     public Note() {}
 
-    public Note(String content, String creationDate) {
+    public Note(String content, LocalDate creationDate) {
         this.content = content;
         this.creationDate = creationDate;
     }

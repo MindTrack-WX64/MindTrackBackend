@@ -28,7 +28,10 @@ public class SessionCommandServiceImpl implements SessionCommandService {
 
     @Override
     public Optional<Session> handle(CreateSessionCommand command, Long treatmentPlanId) {
-        //TODO: implement verify if treatment plan exists
+
+        if (treatmentPlanId <= 0) {
+            throw new RuntimeException("Invalid treatment plan id");
+        }
 
         Session session = new Session(command, treatmentPlanId);
 

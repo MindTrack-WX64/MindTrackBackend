@@ -6,8 +6,8 @@ import com.mindtrack.backend.profiles.interfaces.rest.resources.ProfessionalReso
 public class ProfessionalResourceFromEntityAssembler {
     public static ProfessionalResource toResourceFromEntity(Professional professional) {
         return new ProfessionalResource(
-                professional.getUserId(),
                 professional.getId(),
+                professional.getUserId(),
                 professional.getFullName(),
                 professional.getEmail(),
                 professional.getPhone(),

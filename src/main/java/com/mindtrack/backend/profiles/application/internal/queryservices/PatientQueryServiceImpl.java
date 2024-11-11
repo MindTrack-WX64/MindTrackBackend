@@ -3,10 +3,12 @@ package com.mindtrack.backend.profiles.application.internal.queryservices;
 import com.mindtrack.backend.profiles.domain.model.aggregates.Patient;
 import com.mindtrack.backend.profiles.domain.model.queries.GetPatientByIdQuery;
 import com.mindtrack.backend.profiles.domain.model.queries.GetPatientByUserIdQuery;
+import com.mindtrack.backend.profiles.domain.model.queries.GetPatientsByProfessionalIdQuery;
 import com.mindtrack.backend.profiles.domain.services.PatientQueryService;
 import com.mindtrack.backend.profiles.infrastructure.persistence.jpa.repositories.PatientRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,5 +27,10 @@ public class PatientQueryServiceImpl implements PatientQueryService {
     @Override
     public Optional<Patient> handle(GetPatientByUserIdQuery query) {
         return patientRepository.findByUserId(query.userId());
+    }
+
+    @Override
+    public List<Patient> handle(GetPatientsByProfessionalIdQuery query) {
+        return patientRepository.findByProfessionalId(query.professionalId());
     }
 }

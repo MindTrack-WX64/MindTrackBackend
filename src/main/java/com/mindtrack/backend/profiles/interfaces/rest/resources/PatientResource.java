@@ -9,6 +9,7 @@ public record PatientResource(
         String email,
         String phone,
         LocalDate birthDate,
-        boolean clinicalHistoryStatus
+        boolean clinicalHistoryStatus,
+        Long professionalId
 ) {
 }

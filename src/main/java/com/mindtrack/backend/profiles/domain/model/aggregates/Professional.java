@@ -13,7 +13,7 @@ public class Professional extends Profile {
     @NotBlank
     private String professionalType;
 
-    protected Professional() {
+    public Professional() {
         super();
     }
 

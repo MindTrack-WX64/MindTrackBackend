@@ -12,7 +12,8 @@ public class PatientResourceFromEntityAssembler {
                 patient.getEmail(),
                 patient.getPhone(),
                 patient.getBirthDate(),
-                patient.isClinicalHistoryStatus()
+                patient.isClinicalHistoryStatus(),
+                patient.getProfessionalId()
         );
     }
 }

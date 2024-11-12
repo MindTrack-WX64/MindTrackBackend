@@ -8,7 +8,6 @@ import com.mindtrack.backend.profiles.domain.services.PatientQueryService;
 import com.mindtrack.backend.profiles.domain.services.ProfessionalQueryService;
 import com.mindtrack.backend.profiles.interfaces.rest.resources.PatientResource;
 import com.mindtrack.backend.profiles.interfaces.rest.resources.ProfessionalResource;
-import com.mindtrack.backend.profiles.interfaces.rest.transform.AddPatientToProfessionalCommandFromResourceAssembler;
 import com.mindtrack.backend.profiles.interfaces.rest.transform.PatientResourceFromEntityAssembler;
 import com.mindtrack.backend.profiles.interfaces.rest.transform.ProfessionalResourceFromEntityAssembler;
 import io.swagger.v3.oas.annotations.Operation;
@@ -69,22 +68,6 @@ public class ProfilesController {
         var professionalResource = ProfessionalResourceFromEntityAssembler.toResourceFromEntity(professional.get());
 
         return ResponseEntity.ok(professionalResource);
-    }
-
-    @Operation(summary = "Add patient to professional")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Patient added to professional"),
-            @ApiResponse(responseCode = "404", description = "Patient or professional not found")
-    })
-    @PutMapping("/professionals/{professionalId}/patients/{patientId}")
-    public ResponseEntity<PatientResource> addPatientToProfessional(@PathVariable Long professionalId,
-                                                                    @PathVariable Long patientId) {
-        var command = AddPatientToProfessionalCommandFromResourceAssembler.toCommandFromResource(professionalId, patientId);
-        var patient = this.patientCommandService.handle(command);
-        if(patient.isEmpty()) return ResponseEntity.badRequest().build();
-        var updatedPatient = patient.get();
-        var patientResource = PatientResourceFromEntityAssembler.toResourceFromEntity(updatedPatient);
-        return ResponseEntity.ok(patientResource);
     }
 
     @Operation(summary = "Get patients by professional id")

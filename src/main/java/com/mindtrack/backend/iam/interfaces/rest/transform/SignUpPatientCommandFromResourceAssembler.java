@@ -11,7 +11,8 @@ public class SignUpPatientCommandFromResourceAssembler {
                 resource.fullName(),
                 resource.email(),
                 resource.phone(),
-                resource.birthDate()
+                resource.birthDate(),
+                resource.professionalId()
         );
     }
 }

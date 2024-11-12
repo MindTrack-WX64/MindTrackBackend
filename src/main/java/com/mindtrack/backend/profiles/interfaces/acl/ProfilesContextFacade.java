@@ -14,13 +14,16 @@ public interface ProfilesContextFacade {
      * @param phone The phone number of the patient
      * @param birthDate The birthdate of the patient
      * @param userId The user id related to the patient
+     * @param professionalId The professional id related to the patient
      * @return The id of the created patient
      */
     Long createPatient(String fullName,
                        String email,
                        String phone,
                        LocalDate birthDate,
-                       Long userId);
+                       Long userId,
+                       Long professionalId
+                       );
 
     /**
      * Creates a professional profile

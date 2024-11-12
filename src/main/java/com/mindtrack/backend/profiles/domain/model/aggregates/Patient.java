@@ -12,7 +12,6 @@ import lombok.Setter;
 @Entity
 public class Patient extends Profile {
 
-    @Setter
     @ManyToOne
     @JoinColumn(name = "professional_id")
     private Professional professional;
@@ -23,9 +22,9 @@ public class Patient extends Profile {
         super();
     }
 
-    public Patient(CreatePatientCommand command) {
+    public Patient(CreatePatientCommand command, Professional professional) {
         super(command.fullName(), command.email(), command.phone(), command.birthDate(), command.userId());
-        this.professional = new Professional();
+        this.professional = professional;
         this.clinicalHistoryStatus = false;
     }
 

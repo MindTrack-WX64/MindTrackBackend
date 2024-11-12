@@ -13,10 +13,13 @@ import com.mindtrack.backend.iam.domain.services.UserCommandService;
 import com.mindtrack.backend.iam.infrastructure.persistence.jpa.repositories.RoleRepository;
 import com.mindtrack.backend.iam.infrastructure.persistence.jpa.repositories.UserRepository;
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
+import static org.hibernate.query.sqm.tree.SqmNode.log;
 
 @Service
 public class UserCommandServiceImpl implements UserCommandService {
@@ -55,21 +58,39 @@ public class UserCommandServiceImpl implements UserCommandService {
 
         List<Role> roles = List.of(patientRole);
 
-        var user = new User(command.username(), hashingService.encode(command.password()), roles);
-
-        this.userRepository.save(user);
-
-        if (user.getId() == null) {
-            throw new RuntimeException("Error creating user");
+        if (!this.userRepository.existsById(command.professionalId())) {
+            throw new RuntimeException("Professional not found");
         }
 
-        Optional<Long> patientId = this.externalProfileService.createPatient(
-                command.fullName(), command.email(), command.phone(),
-                command.birthDate(), user.getId()
-        );
+        // Creación del usuario con manejo de excepciones
+        User user;
+        try {
+            user = new User(command.username(), hashingService.encode(command.password()), roles);
+            userRepository.save(user);
+        } catch (DataAccessException e) {
+            throw new RuntimeException("Error al crear el usuario", e);
+        }
+
+        // Verificación del ID del usuario
+        if (user.getId() == null) {
+            throw new RuntimeException("Error inesperado: El ID del usuario es nulo");
+        }
+
+        // Creación del perfil del paciente con manejo de excepciones
+        Optional<Long> patientId;
+        try {
+            patientId = externalProfileService.createPatient(
+                    command.fullName(), command.email(), command.phone(),
+                    command.birthDate(), user.getId(), command.professionalId()
+            );
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear el perfil del paciente", e);
+        }
 
         if (patientId.isEmpty()) {
-            throw new RuntimeException("Error creating patient profile");
+            // Optionally, log a warning for partial success (user created but profile failed)
+            log.warn("User created (ID: {}) but patient profile creation failed");
+            // Decide on user cleanup (e.g., rollback) based on business requirements
         }
 
         return Optional.of(user);

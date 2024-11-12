@@ -29,13 +29,14 @@ public class ProfilesContextFacadeImpl implements ProfilesContextFacade {
     }
 
     @Override
-    public Long createPatient(String fullName, String email, String phone, LocalDate birthDate, Long userId) {
+    public Long createPatient(String fullName, String email, String phone, LocalDate birthDate, Long userId, Long professionalId) {
         var createPatientCommand = new CreatePatientCommand(
                 fullName,
                 email,
                 phone,
                 birthDate,
-                userId
+                userId,
+                professionalId
         );
         var patient = patientCommandService.handle(createPatientCommand);
         return patient.isEmpty() ? Long.valueOf(0L) : patient.get().getId();

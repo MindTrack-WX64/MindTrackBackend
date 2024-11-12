@@ -8,6 +8,7 @@ public record SignUpPatientResource(
         String fullName,
         String email,
         String phone,
-        LocalDate birthDate
+        LocalDate birthDate,
+        Long professionalId
 ) {
 }

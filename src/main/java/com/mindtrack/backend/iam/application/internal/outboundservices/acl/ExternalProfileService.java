@@ -19,9 +19,10 @@ public class ExternalProfileService {
                               String email,
                               String phone,
                               LocalDate birthDate,
-                              Long userId) {
+                              Long userId,
+                              Long professionalId) {
         var profileId = profileContextFacade.createPatient(
-                fullName, email, phone, birthDate, userId);
+                fullName, email, phone, birthDate, userId, professionalId);
 
         return profileId == 0L ? Optional.empty() : Optional.of(profileId);
     }

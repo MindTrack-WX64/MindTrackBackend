@@ -1,10 +1,7 @@
 package com.mindtrack.backend.prescription.application.internal.queryservices;
 
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
-import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByProfessionalIdQuery;
-import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByTreatmentPlanIdQuery;
-import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionQuery;
-import com.mindtrack.backend.prescription.domain.model.queries.GetPrescriptionByIdQuery;
+import com.mindtrack.backend.prescription.domain.model.queries.*;
 import com.mindtrack.backend.prescription.domain.services.PrescriptionQueryService;
 import com.mindtrack.backend.prescription.infrastructure.persistence.jpa.repositories.PrescriptionRepository;
 import com.mindtrack.backend.shared.domain.valueobjects.TreatmentPlanId;
@@ -40,6 +37,11 @@ public class PrescriptionQueryServiceImpl implements PrescriptionQueryService {
     @Override
     public List<Prescription> handle(GetAllPrescriptionByProfessionalIdQuery query) {
         return this.prescriptionRepository.findByProfessionalId(query.professionalId());
+    }
+
+    @Override
+    public List<Prescription> handle(GetAllPrescriptionByPatientId query) {
+        return this.prescriptionRepository.findByPatientId(query.patientId());
     }
 
 }

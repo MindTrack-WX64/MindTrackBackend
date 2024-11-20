@@ -1,6 +1,7 @@
 package com.mindtrack.backend.prescription.interfaces.rest;
 
 import com.mindtrack.backend.prescription.domain.model.aggregates.Prescription;
+import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByPatientId;
 import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByProfessionalIdQuery;
 import com.mindtrack.backend.prescription.domain.model.queries.GetAllPrescriptionByTreatmentPlanIdQuery;
 import com.mindtrack.backend.prescription.domain.model.queries.GetPrescriptionByIdQuery;
@@ -97,6 +98,19 @@ public class PrescriptionController {
     @GetMapping("/professional/{professionalId}")
     public ResponseEntity<List<PrescriptionResource>> getPrescriptionsByProfessionalId(@PathVariable Long professionalId) {
         var query = new GetAllPrescriptionByProfessionalIdQuery(professionalId);
+        List<Prescription> prescriptions = this.prescriptionQueryService.handle(query);
+
+        if(prescriptions.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<PrescriptionResource> resources = prescriptions.stream().map(PrescriptionResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.status(OK).body(resources);
+    }
+
+    @GetMapping("/patient/{patientId}")
+    public ResponseEntity<List<PrescriptionResource>> getPrescriptionsByPatientId(@PathVariable Long patientId) {
+        var query = new GetAllPrescriptionByPatientId(patientId);
         List<Prescription> prescriptions = this.prescriptionQueryService.handle(query);
 
         if(prescriptions.isEmpty()) {

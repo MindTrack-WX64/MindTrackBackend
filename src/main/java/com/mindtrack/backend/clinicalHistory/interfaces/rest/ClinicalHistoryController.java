@@ -9,9 +9,11 @@ import com.mindtrack.backend.clinicalHistory.domain.services.ClinicalHistoryQuer
 import com.mindtrack.backend.clinicalHistory.interfaces.rest.resources.AddSymptomResource;
 import com.mindtrack.backend.clinicalHistory.interfaces.rest.resources.ClinicalHistoryResource;
 import com.mindtrack.backend.clinicalHistory.interfaces.rest.resources.CreateClinicalHistoryResource;
+import com.mindtrack.backend.clinicalHistory.interfaces.rest.resources.UpdateClinicalHistoryResource;
 import com.mindtrack.backend.clinicalHistory.interfaces.rest.transform.AddSymptomCommandFromResourceAssembler;
 import com.mindtrack.backend.clinicalHistory.interfaces.rest.transform.ClinicalHistoryResourceFromEntityAssembler;
 import com.mindtrack.backend.clinicalHistory.interfaces.rest.transform.CreateClinicalHistoryCommandFromResourceAssembler;
+import com.mindtrack.backend.clinicalHistory.interfaces.rest.transform.UpdateClinicalHistoryCommandFromResourceAssembler;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -53,6 +55,18 @@ public class ClinicalHistoryController {
         Optional<ClinicalHistory> clinicalHistory = this.clinicalHistoryCommandService.handle(CreateClinicalHistoryCommandFromResourceAssembler.toCommandFromResource(clinicalHistoryResource));
         return clinicalHistory.map(ClinicalHistoryResourceFromEntityAssembler::toResourceFromEntity)
                 .map(resource -> ResponseEntity.status(CREATED).body(resource))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
+    }
+
+    @Operation(summary = "Update a clinical history", description = "Update a clinical history with the given data")
+    @ApiResponses(value = {
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "The clinical history was updated successfully"),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "400", description = "The request was not successful"),
+    })
+    @PutMapping("/{id}")
+    public ResponseEntity<ClinicalHistoryResource> updateClinicalHistory(@PathVariable Long id, @RequestBody UpdateClinicalHistoryResource resource) {
+        Optional<ClinicalHistory> clinicalHistory = this.clinicalHistoryCommandService.handle(UpdateClinicalHistoryCommandFromResourceAssembler.toCommandFromResource(resource, id));
+        return clinicalHistory.map(source -> ResponseEntity.ok(ClinicalHistoryResourceFromEntityAssembler.toResourceFromEntity(source)))
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 

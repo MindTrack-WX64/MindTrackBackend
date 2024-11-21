@@ -8,6 +8,7 @@ import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,10 +20,12 @@ public class ClinicalHistory extends AuditableAbstractAggregateRoot<ClinicalHist
 
     private Long patientId;
 
+    @Setter
     @NotBlank
     @Column(nullable = false)
     String background;
 
+    @Setter
     @NotBlank
     @Column(nullable = false)
     String consultationReason;

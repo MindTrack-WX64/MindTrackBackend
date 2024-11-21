@@ -3,6 +3,7 @@ package com.mindtrack.backend.clinicalHistory.application.internal.commandservic
 import com.mindtrack.backend.clinicalHistory.domain.model.aggregates.ClinicalHistory;
 import com.mindtrack.backend.clinicalHistory.domain.model.commands.AddSymptomCommand;
 import com.mindtrack.backend.clinicalHistory.domain.model.commands.CreateClinicalHistoryCommand;
+import com.mindtrack.backend.clinicalHistory.domain.model.commands.UpdateClinicalHistoryCommand;
 import com.mindtrack.backend.clinicalHistory.domain.services.ClinicalHistoryCommandService;
 import com.mindtrack.backend.clinicalHistory.infrastructure.persistence.jpa.repositories.ClinicalHistoryRepository;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,19 @@ public class ClinicalHistoryCommandServiceImpl implements ClinicalHistoryCommand
 
         var clinicalHistorySaved = this.clinicalHistoryRepository.save(clinicalHistory);
         return Optional.of(clinicalHistorySaved);
+    }
+
+    @Override
+    public Optional<ClinicalHistory> handle(UpdateClinicalHistoryCommand command) {
+        ClinicalHistory clinicalHistory = this.clinicalHistoryRepository.findById(command.clinicalHistoryId())
+                .orElseThrow(() -> new RuntimeException("Clinical history not found"));
+
+        clinicalHistory.setBackground(command.background());
+        clinicalHistory.setConsultationReason(command.consultationReason());
+
+        var clinicalHistoryUpdated = this.clinicalHistoryRepository.save(clinicalHistory);
+
+        return Optional.of(clinicalHistoryUpdated);
     }
 
     @Override

@@ -10,5 +10,6 @@ import java.util.List;
 @Repository
 public interface SessionRepository extends JpaRepository<Session, Long> {
     List<Session> findAllByProfessionalId(Long professionalId);
+    List<Session> findAllByPatientId(Long patientId);
     List<Session> findAllByTreatmentPlanId(TreatmentPlanId treatmentPlanId);
 }

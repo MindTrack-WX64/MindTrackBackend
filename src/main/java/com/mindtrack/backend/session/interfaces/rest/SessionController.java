@@ -2,10 +2,7 @@ package com.mindtrack.backend.session.interfaces.rest;
 
 import com.mindtrack.backend.session.domain.model.aggregates.Session;
 import com.mindtrack.backend.session.domain.model.entities.Note;
-import com.mindtrack.backend.session.domain.model.queries.GetAllNotesBySessionIdQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetAllSessionByTreatmentPlanIdQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetAllSessionsByProfessionalIdQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetSessionByIdQuery;
+import com.mindtrack.backend.session.domain.model.queries.*;
 import com.mindtrack.backend.session.domain.services.SessionCommandService;
 import com.mindtrack.backend.session.domain.services.SessionQueryService;
 import com.mindtrack.backend.session.interfaces.rest.resources.CreateNoteResource;
@@ -112,6 +109,19 @@ public class SessionController {
     @GetMapping("/professional/{id}")
     public ResponseEntity<List<SessionResource>> getSessionByProfessionalId(@PathVariable Long id) {
         var query = new GetAllSessionsByProfessionalIdQuery(id);
+        List<Session> sessions = this.sessionQueryService.handle(query);
+
+        if (sessions.isEmpty()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<SessionResource> resources = sessions.stream().map(SessionResourceFromEntityAssembler::toResourceFromEntity).toList();
+        return ResponseEntity.ok(resources);
+    }
+
+    @GetMapping("patient/{patientId}")
+    public ResponseEntity<List<SessionResource>> getSessionByPatientId(@PathVariable Long patientId) {
+        var query = new GetAllSessionByPatientId(patientId);
         List<Session> sessions = this.sessionQueryService.handle(query);
 
         if (sessions.isEmpty()) {

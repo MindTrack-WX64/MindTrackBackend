@@ -2,10 +2,7 @@ package com.mindtrack.backend.session.application.internal.queryservices;
 
 import com.mindtrack.backend.session.domain.model.aggregates.Session;
 import com.mindtrack.backend.session.domain.model.entities.Note;
-import com.mindtrack.backend.session.domain.model.queries.GetAllNotesBySessionIdQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetAllSessionByTreatmentPlanIdQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetAllSessionsByProfessionalIdQuery;
-import com.mindtrack.backend.session.domain.model.queries.GetSessionByIdQuery;
+import com.mindtrack.backend.session.domain.model.queries.*;
 import com.mindtrack.backend.session.domain.services.SessionQueryService;
 import com.mindtrack.backend.session.infrastructure.persistence.jpa.repositories.SessionRepository;
 import com.mindtrack.backend.shared.domain.valueobjects.TreatmentPlanId;
@@ -37,6 +34,11 @@ public class SessionQueryServiceImpl implements SessionQueryService {
         //TODO: Implement verification of the treatment plan id
         var treatmentPlanId = new TreatmentPlanId(query.treatmentPlanId());
         return this.sessionRepository.findAllByTreatmentPlanId(treatmentPlanId);
+    }
+
+    @Override
+    public List<Session> handle(GetAllSessionByPatientId query) {
+        return this.sessionRepository.findAllByPatientId(query.patientId());
     }
 
     @Override

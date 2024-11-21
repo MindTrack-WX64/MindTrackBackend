@@ -21,10 +21,10 @@ public class PatientCommandServiceImpl implements PatientCommandService {
 
     @Override
     public Optional<Patient> handle(CreatePatientCommand command) {
-        var professional = this.professionalRepository.findById(command.professionalId())
+        var professional = this.professionalRepository.findByUserId(command.professionalId())
                 .orElseThrow(() -> new IllegalArgumentException("Professional not found"));
 
-        Patient patient = new Patient(command, professional);
+        Patient patient = new Patient(command, professional.getUserId());
 
         this.patientRepository.save(patient);
 
